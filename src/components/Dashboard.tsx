@@ -1,11 +1,12 @@
 "use client";
 import { trpc } from "@/app/_trpc/client";
 import UploadButton from "./UploadButton";
-import { Ghost, Link, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
+import { Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
 import { Button } from "./ui/button";
 import { useState } from "react";
+import Link from "next/link";
 
 const Dashboard = () => {
   const utils = trpc.useContext();
