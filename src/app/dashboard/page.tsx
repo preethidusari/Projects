@@ -1,23 +1,29 @@
 import { db } from "@/db";
-import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
+import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { redirect } from "next/navigation";
-import Dashboard from "@/components/Dashboard";
+import MyFiles from "@/components/Files";
+import Conversations from "@/components/Conversations";
 
 const DashboardPage = async () => {
-    const { getUser } = getKindeServerSession();
-    const user = getUser();
+  const { getUser } = getKindeServerSession();
+  const user = getUser();
 
-    if (!user! || !user.id) redirect('/auth-callback?from=dashboard')
+  if (!user! || !user.id) redirect("/api/auth/login");
 
-    const dbUser = await db.user.findFirst({
-        where: {
-            id: user.id
-        }
-    })
+  const dbUser = await db.user.findFirst({
+    where: {
+      id: user.id,
+    },
+  });
 
-    if (!dbUser) redirect('/auth-callback?from=dashboard')
+  if (!dbUser) redirect("/auth-callback?from=dashboard");
 
-    return <Dashboard />
-}
+  return (
+    <>
+      <MyFiles />
+      <Conversations />
+    </>
+  );
+};
 
-export default DashboardPage
+export default DashboardPage;
