@@ -33,7 +33,7 @@ const IntroChat = () => {
               Join us today and experience the confidence of knowing your legal
               world is protected while having instant access to the knowledge
               and support of legal professionals. Your peace of mind is our
-              priority, and we're here to help you unlock the full potential of
+              priority, and we&apos;re here to help you unlock the full potential of
               your legal journey.
             </p>
           </div>

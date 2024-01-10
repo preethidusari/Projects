@@ -24,7 +24,7 @@ const Intro = () => {
                 We believe that legal assistance should be accessible to
                 everyone. LawQue connects you with our network of professional
                 lawyers, providing you with the guidance and support you need,
-                whenever you need it. Whether you're seeking advice,
+                whenever you need it. Whether you&apos;re seeking advice,
                 consultations, or full legal representation, our platform
                 ensures a seamless experience
               </p>

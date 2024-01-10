@@ -52,23 +52,6 @@ export const columns: ColumnDef<UsersData>[] = [
   {
     accessorKey: "is_advisor",
     header: "Is Legal Advisor",
-    cell: ({ row }) => {
-      const [isAdvisor, setIsAdvisor] = useState(row.getValue("is_advisor"));
-
-      return (
-        <div>
-          <Select>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder={isAdvisor.toString()} />
-            </SelectTrigger>
-            <SelectContent defaultValue={isAdvisor.toString()}>
-              <SelectItem value="true">True</SelectItem>
-              <SelectItem value="false">False</SelectItem>
-            </SelectContent>
-          </Select>
-        </div>
-      );
-    },
   },
   {
     accessorKey: "rating",
