@@ -1,16 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
-import { Button } from "./ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "../ui/dialog";
+import { Button } from "../ui/button";
 
 import Dropzone from "react-dropzone";
-import { Cloud, File, Loader2 } from "lucide-react";
-import { Progress } from "./ui/progress";
+import { Cloud, File, Loader2, Plus } from "lucide-react";
+import { Progress } from "../ui/progress";
 import { useUploadThing } from "@/lib/uploadThing";
-import { useToast } from "./ui/use-toast";
+import { useToast } from "../ui/use-toast";
 import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 const UploadDropzone = () => {
   const router = useRouter();
@@ -89,7 +90,7 @@ const UploadDropzone = () => {
           <div className=" flex items-center justify-center h-full w-full">
             <label
               htmlFor="dropzone-file"
-              className="flex flex-col items-center justify-center w-full h-full rounded-lg cursor-pointer bg-violet-50 hover:bg-violet-100"
+              className="flex flex-col items-center justify-center w-full h-full rounded-lg cursor-pointer bg-purple-50 hover:bg-purple-100"
             >
               <div className="flex flex-col items-center justify-center pt-5 pb-6">
                 <Cloud className="h-6 w-6 text-zinc-500 mb-2" />
@@ -141,7 +142,7 @@ const UploadDropzone = () => {
   );
 };
 
-const UploadButton = () => {
+const UploadButton = ({className}:{className:string}) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -154,10 +155,23 @@ const UploadButton = () => {
       }}
     >
       <DialogTrigger onClick={() => setIsOpen(true)} asChild>
-        <Button className="text-md">
-          Upload PDF
-          <File className="pl-1 h-6 w-6" />{" "}
-        </Button>
+        <div className={cn(className,"col-span-1 cursor-pointer divide-y divide-gray-200 my-auto rounded-lg bg-white shadow transition hover:shadow-lg")}>
+          <div className="py-6 px-6 flex w-full items-center justify-between space-x-6">
+            <div className="h-10 w-10 flex flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-purple-500">
+              <Plus className=" text-white" />
+            </div>
+            <div className="flex-1">
+              <div className="flex items-center space-x-3">
+                <h3 className="truncate text-justify text-2xl font-medium text-zinc-900">
+                  Add file
+                </h3>
+              </div>
+            </div>
+          </div>
+          {/* <div className="px-6 mt-4 grid grid-cols-3 place-items-center py-2 gap-6 text-xs text-zinc-500">
+            Upload File
+          </div> */}
+        </div>
       </DialogTrigger>
       <DialogContent>
         <UploadDropzone />

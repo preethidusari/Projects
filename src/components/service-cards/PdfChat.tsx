@@ -40,13 +40,13 @@ type CardProps = React.ComponentProps<typeof Card>;
 export default function PdfChatCard({ className, ...props }: CardProps) {
   return (
     <Card className={cn(className)} {...props}>
-      <CardHeader className="text-violet-800">
+      <CardHeader className="text-purple-800">
         <CardTitle className="text-6xl text-center">
           <Link className="hover:underline" href="/lawque">
             LawQue
           </Link>
         </CardTitle>
-        <CardDescription className="text-lg">
+        <CardDescription className="text-lg text-center">
           Guiding Legal solutions Empowering your rights{" "}
         </CardDescription>
       </CardHeader>

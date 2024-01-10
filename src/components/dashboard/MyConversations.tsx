@@ -1,14 +1,21 @@
 "use client";
 import { trpc } from "@/app/_trpc/client";
 import UploadButton from "./UploadButton";
-import { Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
+import {
+  Ghost,
+  Loader2,
+  MessageSquare,
+  MessageSquarePlus,
+  Plus,
+  Trash,
+} from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useState } from "react";
 import Link from "next/link";
 
-const MyFiles = () => {
+const Conversations = () => {
   const utils = trpc.useContext();
 
   const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
@@ -32,8 +39,13 @@ const MyFiles = () => {
   return (
     <main className="mx-auto max-w-7xl md:p-10">
       <div className=" mt-8 flex flex-col items-start justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center sm:gap-0">
-        <h1 className="mb-3 font-bold text-5xl text-gray-900">My Files</h1>
-        <UploadButton />
+        <h1 className="mb-3 font-bold text-5xl text-gray-900">
+          My Conversations
+        </h1>
+        {/* <UploadButton /> */}
+        <Button className="text-md">
+          Start Conversation <MessageSquarePlus className="pl-1 h-6 w-6" />{" "}
+        </Button>
       </div>
 
       {/* Display all user files */}
@@ -55,7 +67,7 @@ const MyFiles = () => {
                   className="flex flex-col gap-2"
                 >
                   <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
-                    <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500" />
+                    <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />
                     <div className="flex-1 truncate">
                       <div className="flex items-center space-x-3">
                         <h3 className="truncate text-lg font-medium text-zinc-900">
@@ -104,4 +116,4 @@ const MyFiles = () => {
   );
 };
 
-export default MyFiles;
+export default Conversations;

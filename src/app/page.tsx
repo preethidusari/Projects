@@ -2,18 +2,20 @@ import MaxWidthWrapper from "@/components/MaxWidthWrapper";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import Intro from "@/components/intro";
+import Intro from "@/components/landing-page/intro";
 import Image from "next/image";
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import IntroChat from "@/components/intochat";
+import IntroChat from "@/components/landing-page/intochat";
+import Footer from "@/components/landing-page/Footer";
 
 export default function Home() {
   const { getUser } = getKindeServerSession();
   const user = getUser();
   return (
-    <div className="bg-white">
+    <div className="space-y-24">
       <Intro />
       <IntroChat />
+      <Footer/>
     </div>
   );
 }

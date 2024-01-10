@@ -1,7 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
- 
+
+#law{
+  color: white;
+  -webkit-text-stroke-color: rgb(107 33 168);
+  -webkit-text-stroke-width: 3.5px;
+}
 
 @layer base {
   :root {

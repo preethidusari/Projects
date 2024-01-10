@@ -1,20 +1,22 @@
+import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/server";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 const Intro = () => {
   return (
     <div>
-      <div className=" bg-white flex ">
-        <div className="w-1/2 item">
-          <div className=" text-center mt-32 ml-20 ">
+      <div className=" flex items-center">
+        <div className="w-1/2">
+          <div className=" space-y-10 text-center ml-20 ">
             <div className=" space-y-3">
-              <h3 className="font-bold text-purple-800 text-5xl">
+              <h3 className="font-bold text-purple-800 text-7xl">
                 Where Legal Security{" "}
               </h3>
-              <h3 className="font-bold text-purple-800 text-5xl">
+              <h3 className="font-bold text-purple-800 text-6xl">
                 Meets Seamless{" "}
               </h3>
-              <h3 className="font-bold text-purple-800 text-5xl">Access</h3>
+              <h3 className="font-bold text-purple-800 text-7xl">Access</h3>
             </div>
 
             <div className=" p-8 text-center ">
@@ -28,12 +30,11 @@ const Intro = () => {
               </p>
             </div>
             {/* <p className='text-black font-medium text-lg mt-6'>We believe that legal assistance should be accessible to everyone. LawQue connects you with our network of professional lawyers, providing you with the guidance and support you need, whenever you need it. Whether you're seeking advice, consultations, or full legal representation, our platform ensures a seamless experience</p> */}
-            <Link
-              href={"/"}
-              className=" bg-purple-800 rounded-xl text-white px-8 py-3 font-bold shadow-md  hover:bg-purple-600"
+            <RegisterLink
+              className="border-2 bg-purple-800 rounded-xl text-lg text-white px-8 py-4 font-bold shadow-md"
             >
-              Try Now
-            </Link>
+              Get Started
+            </RegisterLink>
           </div>
         </div>
         <div className="w-1/2 px-40 py-8 ">

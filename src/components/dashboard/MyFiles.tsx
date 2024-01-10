@@ -1,21 +1,14 @@
 "use client";
 import { trpc } from "@/app/_trpc/client";
 import UploadButton from "./UploadButton";
-import {
-  Ghost,
-  Loader2,
-  MessageSquare,
-  MessageSquarePlus,
-  Plus,
-  Trash,
-} from "lucide-react";
+import { Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useState } from "react";
 import Link from "next/link";
 
-const Conversations = () => {
+const MyFiles = () => {
   const utils = trpc.useContext();
 
   const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
@@ -39,13 +32,7 @@ const Conversations = () => {
   return (
     <main className="mx-auto max-w-7xl md:p-10">
       <div className=" mt-8 flex flex-col items-start justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center sm:gap-0">
-        <h1 className="mb-3 font-bold text-5xl text-gray-900">
-          My Conversations
-        </h1>
-        {/* <UploadButton /> */}
-        <Button className="text-md">
-          Start Conversation <MessageSquarePlus className="pl-1 h-6 w-6" />{" "}
-        </Button>
+        <h1 className="mb-3 font-bold text-5xl text-gray-900">My Files</h1>
       </div>
 
       {/* Display all user files */}
@@ -67,7 +54,7 @@ const Conversations = () => {
                   className="flex flex-col gap-2"
                 >
                   <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
-                    <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500" />
+                    <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />
                     <div className="flex-1 truncate">
                       <div className="flex items-center space-x-3">
                         <h3 className="truncate text-lg font-medium text-zinc-900">
@@ -102,6 +89,7 @@ const Conversations = () => {
                 </div>
               </li>
             ))}
+          <UploadButton className="w-2/3" />
         </ul>
       ) : isLoading ? (
         <Skeleton height={100} className="my-2" count={3} />
@@ -110,10 +98,11 @@ const Conversations = () => {
           <Ghost className="h-8 w-8 text-zinc-800" />
           <h3 className="font-semibold text-xl">Pretty empty around here</h3>
           <p>Let&apos;s upload your first PDF.</p>
+          <UploadButton className="w-fit" />
         </div>
       )}
     </main>
   );
 };
 
-export default Conversations;
+export default MyFiles;

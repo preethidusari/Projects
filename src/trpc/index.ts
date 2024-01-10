@@ -1,8 +1,14 @@
 import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
-import { privateProcedure, publicProcedure, router } from "./trpc";
+import {
+  adminProcedure,
+  privateProcedure,
+  publicProcedure,
+  router,
+} from "./trpc";
 import { TRPCError } from "@trpc/server";
 import { db } from "@/db";
 import { z } from "zod";
+import { updateUserRole } from "./admin";
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -27,12 +33,37 @@ export const appRouter = router({
         data: {
           id: currentUser.id,
           email: currentUser.email,
+          first_name: currentUser.given_name,
+          last_name: currentUser.family_name,
         },
       });
     }
 
-    return { success: true };
+    return { success: true, user: dbUser };
   }),
+  getUserByEmail: privateProcedure.query(async ({ ctx }) => {
+    if (ctx.email) {
+      return await db.user.findFirst({
+        where: {
+          email: ctx.email,
+        },
+      });
+    }
+  }),
+  getAllUsers: privateProcedure.query(async () => {
+    return await db.user.findMany({
+      select: {
+        email: true,
+        first_name: true,
+        last_name: true,
+        joinedAt: true,
+        is_admin: true,
+        is_advisor: true,
+        rating: true,
+      },
+    });
+  }),
+  updateUserRole: updateUserRole,
   getUserFiles: privateProcedure.query(async ({ ctx }) => {
     const { userId } = ctx;
 
