@@ -2,43 +2,27 @@
 import {
     Cloud,
     CreditCard,
-    Github,
     Keyboard,
     LifeBuoy,
     LogOut,
-    Mail,
-    MessageSquare,
-    Plus,
-    PlusCircle,
     Settings,
-    User,
-    User2,
-    UserCircle,
-    UserCircle2,
-    UserCog,
-    UserPlus,
-    Users,
+    User
   } from "lucide-react"
-  
-  import { Button } from "@/components/ui/button"
   import {
     DropdownMenu,
     DropdownMenuContent,
     DropdownMenuGroup,
     DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuPortal,
     DropdownMenuSeparator,
     DropdownMenuShortcut,
-    DropdownMenuSub,
-    DropdownMenuSubContent,
-    DropdownMenuSubTrigger,
     DropdownMenuTrigger,
   } from "@/components/ui/dropdown-menu"
-import { LogoutLink, getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server"
+import { LogoutLink } from "@kinde-oss/kinde-auth-nextjs/server"
 import { trpc } from "@/app/_trpc/client"
+import { Avatar, AvatarFallback } from "../ui/avatar"
   
-const UserDropdownMenu = () => {
+const UserAccountMenu = () => {
     const {data} = trpc.authCallback.useQuery(undefined)
     var userName = ""
     if(data?.user?.first_name) {
@@ -51,40 +35,45 @@ const UserDropdownMenu = () => {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="outline"><User className="mr-2 h-5 w-5 text-purple-700" /> {userName ? userName : "Account"}</Button>
+          <div className="flex items-center">
+            <Avatar className=" text-purple-700" >
+              <AvatarFallback><User/></AvatarFallback>
+            </Avatar>
+            <h1 className="h-fit">User</h1>
+          </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56">
           <DropdownMenuLabel>My Account</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuGroup>
             <DropdownMenuItem>
-              <CreditCard className="mr-2 h-4 w-4" />
+              <CreditCard className="mr-2 h-4 w-4 text-purple-700" />
               <span>Billing</span>
               <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Settings className="mr-2 h-4 w-4" />
+              <Settings className="mr-2 h-4 w-4 text-purple-700" />
               <span>Settings</span>
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
             </DropdownMenuItem>
             <DropdownMenuItem>
-              <Keyboard className="mr-2 h-4 w-4" />
+              <Keyboard className="mr-2 h-4 w-4 text-purple-700" />
               <span>Keyboard shortcuts</span>
               <DropdownMenuShortcut>⌘K</DropdownMenuShortcut>
             </DropdownMenuItem>
           </DropdownMenuGroup>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <LifeBuoy className="mr-2 h-4 w-4" />
+            <LifeBuoy className="mr-2 h-4 w-4 text-purple-700" />
             <span>Support</span>
           </DropdownMenuItem>
           <DropdownMenuItem disabled>
-            <Cloud className="mr-2 h-4 w-4" />
+            <Cloud className="mr-2 h-4 w-4 text-purple-700" />
             <span>API</span>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem>
-            <LogOut className="mr-2 h-4 w-4" />
+            <LogOut className="mr-2 h-4 w-4 text-purple-700" />
             <LogoutLink>
             Log out
             </LogoutLink>
@@ -94,4 +83,4 @@ const UserDropdownMenu = () => {
       </DropdownMenu>
     )
 }
-export default UserDropdownMenu  
+export default UserAccountMenu  
