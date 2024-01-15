@@ -33,14 +33,14 @@ const Navbar = async () => {
   const { getUser } = getKindeServerSession();
   const user = getUser();
   var isLoggedIn = false;
-  if (user.id && user.email) {
+  if (user) {
     isLoggedIn = true;
   }
   return (
     <nav className="sticky h-16 py-1 inset-x-0 top-0 z-30 w-full border-b border-gray-200 backdrop-blur-lg transition-all bg-[#1D0551]/90">
       <MaxWidthWrapper>
         <div className="lg:px-2 pt-1 flex justify-between items-center">
-          <Link href="/">
+          <Link href={isLoggedIn ? '/dashboard' : "/"}>
             <Image src={"/Asset 1.png"} height={48} width={102} alt="logo" />
           </Link>
           <ol className=" hidden md:flex max-w-2xl items-center text-white text-md font-semibold space-x-16 text-center">
