@@ -4,3 +4,10 @@ import { twMerge } from "tailwind-merge"
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
+
+
+export function absoluteURL(path: string) {
+  if(typeof window !== "undefined") return path
+  if(process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}${path}`
+  return `http://localhost:3000${path}`
+}
