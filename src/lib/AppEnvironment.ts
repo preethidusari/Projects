@@ -16,5 +16,5 @@ interface EnvVariables {
     },
   };
 
-export const config: EnvVariables = appConfig["production"];
+export const config: EnvVariables = appConfig["development"];
   

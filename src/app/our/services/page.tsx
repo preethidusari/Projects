@@ -6,7 +6,7 @@ import Link from "next/link";
 const FeaturesPage = () => {
   return (
     <main className=" mx-48 mt-20">
-      <div className="flex justify-between items-center mb-12 px-16">
+      <div className="mx-auto text-center mb-12 px-16">
         <h1 className="font-bold text-purple-800 text-5xl md:text-6xl lg:text-7xl">
           Our Services
         </h1>
