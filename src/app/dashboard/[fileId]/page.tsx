@@ -1,27 +1,27 @@
-import ChatBox from '@/components/ChatBox'
-import PdfRenderer from '@/components/PdfRenderer'
+import ChatBox from '@/components/chat-box/ChatBox'
+import PdfRenderer from '@/components/pdf-rendering/PdfRenderer'
 import { db } from '@/db'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 import { notFound, redirect } from 'next/navigation'
 
 interface PageProps {
   params: {
-    fileid: string
+    fileId: string
   }
 }
 
 const Page = async ({ params }: PageProps) => {
-  const { fileid } = params
+  const { fileId } = params
 
   const { getUser } = getKindeServerSession()
   const user = getUser()
 
   if (!user || !user.id)
-    redirect(`/auth-callback?origin=dashboard/${fileid}`)
+    redirect(`/auth-callback?origin=dashboard/${fileId}`)
 
   const file = await db.file.findFirst({
     where: {
-      id: fileid,
+      id: fileId,
       userId: user.id,
     },
   })
@@ -43,7 +43,7 @@ const Page = async ({ params }: PageProps) => {
 
         <div className='shrink-0 flex-[0.75] border-t border-gray-200 lg:w-96 lg:border-l lg:border-t-0'>
           {/* <ChatWrapper isSubscribed={plan.isSubscribed} fileId={file.id} /> */}
-          <ChatBox/>
+          <ChatBox fileId={file.id}/>
         </div>
       </div>
     </div>
