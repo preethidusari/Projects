@@ -14,8 +14,8 @@ const appConfig: Environments = {
     apiUrl: "http://localhost:3000/api/trpc"
   },
   production: {
-    Url: "https://legal-intellect.gpdev.me",
-    apiUrl: "https://legal-intellect.gpdev.me/api/trpc",
+    Url: "https://lintellect.gpdev.me",
+    apiUrl: "https://lintellect.gpdev.me/api/trpc",
   },
 };
 
