@@ -1,20 +1,22 @@
 interface EnvVariables {
-    apiUrl: string;
-  }
-  
-  interface Environments {
-    development: EnvVariables;
-    production: EnvVariables;
-  }
-  
-  const appConfig: Environments = {
-    development: {
-        apiUrl: 'http://localhost:3000/api/trpc',
-    },
-    production: {
-        apiUrl: 'https://legal-intellect.gpdev.me'
-    },
-  };
+  Url: string;
+  apiUrl: string
+}
 
-export const config: EnvVariables = appConfig["development"];
-  
+interface Environments {
+  development: EnvVariables;
+  production: EnvVariables;
+}
+
+const appConfig: Environments = {
+  development: {
+    Url: "http://localhost:3000",
+    apiUrl: "http://localhost:3000/api/trpc"
+  },
+  production: {
+    Url: "https://legal-intellect.gpdev.me",
+    apiUrl: "https://legal-intellect.gpdev.me/api/trpc",
+  },
+};
+
+export const Env: EnvVariables = appConfig.production;
