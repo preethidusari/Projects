@@ -5,31 +5,9 @@ import Image from "next/image";
 import NavbarLink from "./NavbarLink";
 import UserAccountMenu from "./UserAccountMenu";
 import { Separator } from "../ui/separator";
-
-interface NavbarLinks {
-  head: string;
-  route: string;
-}
+import { navBarItems } from "./NavbarItems";
 
 const Navbar = async () => {
-  const navBarItems: NavbarLinks[] = [
-    {
-      head: "Services",
-      route: "/our/services",
-    },
-    {
-      head: "Pricing",
-      route: "/our/pricing",
-    },
-    {
-      head: "About us",
-      route: "/our/company",
-    },
-    {
-      head: "Support",
-      route: "/our/support",
-    },
-  ];
   const { getUser } = getKindeServerSession();
   const user = getUser();
   var isLoggedIn = false;

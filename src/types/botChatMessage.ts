@@ -3,7 +3,7 @@ import { inferRouterOutputs } from "@trpc/server";
 
 type Routeroutput = inferRouterOutputs<AppRouter>
 
-type Messages = Routeroutput["file"]["getFileMessages"]["messages"]
+type Messages = Routeroutput["bot"]["getMessages"]["messages"]
 
 type OmitText = Omit<Messages[number], "text">
 
@@ -11,4 +11,4 @@ type Extendedtext = {
     text: string | JSX.Element
 }
 
-export type ExtendedMessage = OmitText & Extendedtext
+export type ExtendedBotChatMessage = OmitText & Extendedtext

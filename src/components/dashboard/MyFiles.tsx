@@ -1,12 +1,23 @@
 "use client";
 import { trpc } from "@/app/_trpc/client";
 import UploadButton from "./UploadButton";
-import { Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
+import { FileCheck2, Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
 import { Button } from "../ui/button";
 import { useState } from "react";
 import Link from "next/link";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 
 const MyFiles = () => {
   const utils = trpc.useContext();
@@ -15,11 +26,11 @@ const MyFiles = () => {
     string | null
   >(null);
 
-  const { data: files, isLoading } = trpc.getUserFiles.useQuery();
+  const { data: files, isLoading } = trpc.file.getUserFiles.useQuery();
 
-  const { mutate: deleteFile } = trpc.deleteFile.useMutation({
+  const { mutate: deleteFile } = trpc.file.deleteFile.useMutation({
     onSuccess: () => {
-      utils.getUserFiles.invalidate();
+      utils.file.getUserFiles.invalidate();
     },
     onMutate: ({ id }) => {
       setCurrentlyDeletingFile(id);
@@ -50,11 +61,13 @@ const MyFiles = () => {
                 className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg"
               >
                 <Link
-                  href={`/dashboard/${file.id}`}
+                  href={`/dashboard/lawq/f/${file.id}`}
                   className="flex flex-col gap-2"
                 >
                   <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
-                    <div className="h-10 w-10 flex-shrink-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500" />
+                    <div className="h-10 w-10 flex items-center justify-center flex-shrink-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500">
+                      <FileCheck2 className=" text-white"/>
+                    </div>
                     <div className="flex-1 truncate">
                       <div className="flex items-center space-x-3">
                         <h3 className="truncate text-lg font-medium text-zinc-900">
@@ -74,18 +87,38 @@ const MyFiles = () => {
                     mocked
                   </div>
 
-                  <Button
-                    onClick={() => deleteFile({ id: file.id })}
-                    size="sm"
-                    className="w-full"
-                    variant="destructive"
-                  >
-                    {currentlyDeletingFile === file.id ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <Trash className="h-4 w-4" />
-                    )}
-                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger className="w-full" asChild>
+                      <Button className=" w-full bg-destructive-button text-destructive-buttonFG hover:bg-destructive-button/90"
+                      size="sm"
+                      variant="destructive"
+                      >
+                        {currentlyDeletingFile === file.id ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Trash className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This will permanently delete your file
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => deleteFile({ id: file.id })}
+                        >
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </li>
             ))}

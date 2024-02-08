@@ -1,9 +1,10 @@
 import { TRPCError } from "@trpc/server";
-import { adminProcedure, privateProcedure } from "./trpc";
+import { adminProcedure, router } from "@/trpc/config";
 import { db } from "@/db";
 import { z } from "zod";
 
-export const updateUserRole = privateProcedure
+export const AdminRouter = router({
+  updateUserRole: adminProcedure
   .input(
     z.object({
       email: z.string(),
@@ -23,4 +24,5 @@ export const updateUserRole = privateProcedure
       },
     });
     return { success: true };
-  });
+  })
+})

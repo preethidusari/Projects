@@ -1,41 +1,44 @@
-import { ReactNode, createContext, useRef, useState } from "react";
-import { toast } from "sonner";
-import { useMutation } from "@tanstack/react-query";
 import { trpc } from "@/app/_trpc/client";
 import { INFINITE_QUERY_LIMIT } from "@/config/infinite-query";
+import { useMutation } from "@tanstack/react-query";
+import { ChangeEvent, ReactNode, createContext, useRef, useState } from "react";
+import { toast } from "sonner";
 
-type StreamResponse = {
+type BotResponse = {
   addMessage: () => void;
   message: string;
   handleInputChange: (event: React.ChangeEvent<HTMLTextAreaElement>) => void;
   isLoading: boolean;
 };
 
-export const ChatContext = createContext<StreamResponse>({
+export const BotChatContext = createContext<BotResponse>({
   addMessage: () => {},
   message: "",
   handleInputChange: () => {},
   isLoading: false,
 });
 
-interface Props {
-  fileId: string;
+interface BotChatContextProps {
+  chatId: string;
   children: ReactNode;
 }
 
-export const ChatContextProvider = ({ fileId, children }: Props) => {
+export const BotChatContextProvider = ({
+  chatId,
+  children,
+}: BotChatContextProps) => {
   const [message, setMessage] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const utils = trpc.useContext();
+  const utils = trpc.useUtils();
 
   const backupMessage = useRef("");
 
   const { mutate: sendMessage } = useMutation({
     mutationFn: async ({ message }: { message: string }) => {
-      const response = await fetch("/api/message", {
+      const response = await fetch("/api/botMessage", {
         method: "POST",
         body: JSON.stringify({
-          fileId,
+          chatId,
           message,
         }),
       });
@@ -51,14 +54,14 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
       setMessage("");
 
       // step 1
-      await utils.file.getFileMessages.cancel();
+      await utils.bot.getMessages.cancel();
 
       // step 2
-      const previousMessages = utils.file.getFileMessages.getInfiniteData();
+      const previousMessages = utils.bot.getMessages.getInfiniteData();
 
       // step 3
-      utils.file.getFileMessages.setInfiniteData(
-        { fileId, limit: INFINITE_QUERY_LIMIT },
+      utils.bot.getMessages.setInfiniteData(
+        { chatId, limit: INFINITE_QUERY_LIMIT },
         (old) => {
           if (!old) {
             return {
@@ -120,8 +123,8 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
         accResponse += chunkValue;
 
         // append chunk to the actual message
-        utils.file.getFileMessages.setInfiniteData(
-          { fileId, limit: INFINITE_QUERY_LIMIT },
+        utils.bot.getMessages.setInfiniteData(
+          { chatId, limit: INFINITE_QUERY_LIMIT },
           (old) => {
             if (!old) return { pages: [], pageParams: [] };
 
@@ -172,15 +175,15 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
 
     onError: (_, __, context) => {
       setMessage(backupMessage.current);
-      utils.file.getFileMessages.setData(
-        { fileId },
+      utils.bot.getMessages.setData(
+        { chatId },
         { messages: context?.previousMessages ?? [] }
       );
     },
     onSettled: async () => {
       setIsLoading(false);
 
-      await utils.file.getFileMessages.invalidate({ fileId });
+      await utils.bot.getMessages.invalidate({ chatId });
     },
   });
 
@@ -191,7 +194,7 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
   const addMessage = () => sendMessage({ message });
 
   return (
-    <ChatContext.Provider
+    <BotChatContext.Provider
       value={{
         addMessage,
         message,
@@ -200,6 +203,6 @@ export const ChatContextProvider = ({ fileId, children }: Props) => {
       }}
     >
       {children}
-    </ChatContext.Provider>
+    </BotChatContext.Provider>
   );
 };
