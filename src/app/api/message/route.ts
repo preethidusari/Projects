@@ -29,9 +29,9 @@ export const POST = async (req: NextRequest) => {
     },
   });
 
-  if (!file) return new Response("Not FOund", { status: 404 });
+  if (!file) return new Response("Not Found", { status: 404 });
 
-  await db.message.create({
+  await db.pdfChat.create({
     data: {
       text: message,
       isUserMessage: true,
@@ -53,7 +53,7 @@ export const POST = async (req: NextRequest) => {
 
   const results = await vectorStore.similaritySearch(message, 4);
 
-  const prevMessage = await db.message.findMany({
+  const prevMessage = await db.pdfChat.findMany({
     where: {
       fileId,
     },
@@ -106,7 +106,7 @@ export const POST = async (req: NextRequest) => {
 
   const stream = OpenAIStream(response, {
     async onCompletion(completion) {
-      await db.message.create({
+      await db.pdfChat.create({
         data: {
           text: completion,
           isUserMessage: false,

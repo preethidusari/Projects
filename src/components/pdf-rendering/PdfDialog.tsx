@@ -8,7 +8,7 @@ import { Button } from '../ui/button'
 import { Expand, Loader2 } from 'lucide-react'
 import SimpleBar from 'simplebar-react'
 import { Document, Page } from 'react-pdf'
-import { useToast } from '../ui/use-toast'
+import { toast } from 'sonner'
 import { useResizeDetector } from 'react-resize-detector'
 
 interface PdfDialogProps {
@@ -18,8 +18,6 @@ interface PdfDialogProps {
 const PdfDialog = ({ fileUrl }: PdfDialogProps) => {
   const [isOpen, setIsOpen] = useState(false)
   const [numPages, setNumPages] = useState<number>()
-
-  const { toast } = useToast()
 
   const { width, ref } = useResizeDetector()
 
@@ -53,10 +51,8 @@ const PdfDialog = ({ fileUrl }: PdfDialogProps) => {
                 </div>
               }
               onLoadError={() => {
-                toast({
-                  title: 'Error loading PDF',
-                  description: 'Please try again later',
-                  variant: 'destructive',
+                toast.error("Error loading PDF",{
+                  description: 'Please try again later'
                 })
               }}
               onLoadSuccess={({ numPages }) =>

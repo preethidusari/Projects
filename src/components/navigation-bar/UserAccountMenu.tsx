@@ -29,7 +29,7 @@ import {
 } from "../ui/tooltip";
 
 const UserAccountMenu = () => {
-  const { data } = trpc.authCallback.useQuery(undefined);
+  const { data } = trpc.user.authCallback.useQuery(undefined);
   var userName = "User";
   if (data?.user?.first_name) {
     userName = data?.user?.first_name;
