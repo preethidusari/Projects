@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import Navbar from "@/components/navigation-bar/Navbar";
 import Providers from "@/components/Providers";
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "sonner";
 
 import "react-loading-skeleton/dist/skeleton.css";
 import 'simplebar-react/dist/simplebar.min.css'
@@ -30,7 +30,7 @@ export default function RootLayout({
             inter.className
           )}
         >
-          <Toaster />
+          <Toaster position="top-right" richColors/>
           <Navbar />
           {children}
         </body>

@@ -1,16 +1,15 @@
 import { cn } from "@/lib/utils";
-import { ExtendedMessage } from "@/types/message";
+import { ExtendedBotChatMessage } from "@/types/botChatMessage";
+import { forwardRef } from "react";
 import { Icons } from "../Icons";
 import ReactMarkdown from "react-markdown";
 import { format } from "date-fns";
-import { forwardRef } from "react";
 
-interface MessageProps {
-  message: ExtendedMessage;
+interface BotChatMessageProps {
+  message: ExtendedBotChatMessage;
   isNextMessageSamePerson: boolean;
 }
-
-const Message = forwardRef<HTMLDivElement, MessageProps>(
+const BotChatMessage = forwardRef<HTMLDivElement, BotChatMessageProps>(
   ({ message, isNextMessageSamePerson }, ref) => {
     return (
       <div
@@ -79,7 +78,4 @@ const Message = forwardRef<HTMLDivElement, MessageProps>(
     );
   }
 );
-
-Message.displayName = "Message";
-
-export default Message;
+export default BotChatMessage;

@@ -14,7 +14,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import { useToast } from "../ui/use-toast";
+import { toast } from "sonner";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +29,6 @@ export interface UsersData {
 }
 
 const UsersTable = () => {
-  const { toast } = useToast();
   const utils = trpc.useUtils();
   const [tableChanged, setTableChanged] = useState<boolean>(false)
   const {
@@ -37,12 +36,12 @@ const UsersTable = () => {
     isLoading,
     error,
     isError,
-  } = trpc.getAllUsers.useQuery(undefined, {
+  } = trpc.user.getAllUsers.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
   });
   const handleTryAgain = () => {
-    utils.getAllUsers.invalidate();
+    utils.user.getAllUsers.invalidate();
   };
   if (isError) {
     if (error?.data?.code == "FORBIDDEN") {

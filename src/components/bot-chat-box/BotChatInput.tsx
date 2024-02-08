@@ -2,15 +2,15 @@ import { Send } from "lucide-react";
 import { Button } from "../ui/button";
 import { Textarea } from "../ui/textarea";
 import { useContext, useRef } from "react";
-import { ChatContext } from "./ChatContext";
+import { BotChatContext } from "./BotChatContext";
 
-interface ChatInputProps {
+interface BotChatInputProps {
   isDisabled?: boolean;
 }
 
-const ChatInput = ({ isDisabled }: ChatInputProps) => {
+const BotChatInput = ({ isDisabled }: BotChatInputProps) => {
   const { addMessage, handleInputChange, isLoading, message } =
-    useContext(ChatContext);
+  useContext(BotChatContext);
 
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -42,7 +42,7 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
 
               <Button
                 disabled={isLoading || isDisabled}
-                className="absolute bottom-1.5 right-[8px]"
+                className="absolute bottom-1.5 right-[8px] bg-purple-800"
                 aria-label="send message"
                 onClick={() => {
                   addMessage();
@@ -60,4 +60,4 @@ const ChatInput = ({ isDisabled }: ChatInputProps) => {
   );
 };
 
-export default ChatInput;
+export default BotChatInput;

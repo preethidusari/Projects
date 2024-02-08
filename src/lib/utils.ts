@@ -1,5 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { Env } from "./AppEnvironment"
  
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -8,6 +9,5 @@ export function cn(...inputs: ClassValue[]) {
 
 export function absoluteURL(path: string) {
   if(typeof window !== "undefined") return path
-  if(process.env.VERCEL_URL) return `https://${process.env.VERCEL_URL}${path}`
-  return `http://localhost:3000${path}`
+  return `${Env.Url}${path}`
 }

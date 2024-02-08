@@ -9,7 +9,7 @@ const CallbackPage = () => {
     const searchParams = useSearchParams()
     const from = searchParams.get('from')
 
-    trpc.authCallback.useQuery(undefined, {
+    trpc.user.authCallback.useQuery(undefined, {
         onSuccess: ({ success }) => {
             if (success) {
                 //user is in DB
