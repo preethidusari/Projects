@@ -6,19 +6,18 @@ import {
 import { Separator } from "../ui/separator";
 import StartConversation from "../dashboard/StartConversation";
 import Link from "next/link";
-import { useState } from "react";
 import { Button } from "../ui/button";
 import { Icons } from "../Icons";
 import { trpc } from "@/app/_trpc/client";
 import { toast } from "sonner";
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 
 interface BotChatSideMenuProps {
   userId: string;
+  chatId: string
 }
 
-const BotChatSideMenu = ({ userId }: BotChatSideMenuProps) => {
+const BotChatSideMenu = ({ userId, chatId }: BotChatSideMenuProps) => {
   const {
     data: userChats,
     isLoading,
@@ -27,8 +26,6 @@ const BotChatSideMenu = ({ userId }: BotChatSideMenuProps) => {
   if (isError) {
     return toast.error("Something went wrong!");
   }
-
-  const pathname = usePathname()
 
   return (
     <div>
@@ -80,7 +77,7 @@ const BotChatSideMenu = ({ userId }: BotChatSideMenuProps) => {
                   <li key={i}>
                     <Link
                       href={`/dashboard/lawq/${chat.id}`}
-                      className={cn("flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group", {"border-2 border-purple-800 ring-purple-800" : pathname == `/dashboard/lawq/${chat.id}`})}
+                      className={cn("flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group", {"border-2 border-purple-800 ring-purple-800" : chatId == chat.id})}
                     >
                       <Scale />
                       <span className="ms-3">{chat.title}</span>

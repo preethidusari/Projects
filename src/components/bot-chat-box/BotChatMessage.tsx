@@ -78,4 +78,7 @@ const BotChatMessage = forwardRef<HTMLDivElement, BotChatMessageProps>(
     );
   }
 );
+
+BotChatMessage.displayName = "BotChatMessage"
+
 export default BotChatMessage;

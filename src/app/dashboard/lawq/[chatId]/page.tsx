@@ -29,7 +29,7 @@ const BotChatPage = async ({ params }: BotChatPageProps) => {
 
   return (
     <div className="flex h-[calc(100vh-4rem)]">
-      <BotChatSideMenu userId={user.id} />
+      <BotChatSideMenu userId={user.id} chatId={chatId} />
       <BotChatBox chatId={chatId} />
     </div>
   );
