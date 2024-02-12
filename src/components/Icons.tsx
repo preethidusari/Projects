@@ -1,13 +1,9 @@
-import { LucideProps, User } from "lucide-react";
+import { LucideProps, User, AlignEndHorizontal } from "lucide-react";
 
 export const Icons = {
   user: User,
   logo: (props: LucideProps) => {
-    return (
-      <svg {...props} viewBox="0 0 24 24">
-        <path d="m6.94 14.036c-.233.624-.43 1.2-.606 1.783.96-.697 2.101-1.139 3.418-1.304 2.513-.314 4.746-1.973 5.876-4.058l-1.456-1.455 1.413-1.415 1-1.001c.43-.43.915-1.224 1.428-2.368-5.593.867-9.018 4.292-11.074 9.818zm10.06-5.035 1 .999c-1 3-4 6-8 6.5-2.669.334-4.336 2.167-5.002 5.5h-1.998c1-6 3-20 18-20-1 2.997-1.998 4.996-2.997 5.997z" />
-      </svg>
-    );
+    return <AlignEndHorizontal {...props} className=" text-purple-800" />;
   },
   Messages: (props: LucideProps) => {
     return (
@@ -25,6 +21,48 @@ export const Icons = {
       >
         <path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4c0-1.1.9-2 2-2h8a2 2 0 0 1 2 2v5Z" />
         <path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1" />
+      </svg>
+    );
+  },
+  LibraryBig: (props: LucideProps) => {
+    return (
+      <svg
+        {...props}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="lucide lucide-library-big text-purple-800"
+      >
+        <rect width="8" height="18" x="3" y="3" rx="1" />
+        <path d="M7 3v18" />
+        <path d="M20.4 18.9c.2.5-.1 1.1-.6 1.3l-1.9.7c-.5.2-1.1-.1-1.3-.6L11.1 5.1c-.2-.5.1-1.1.6-1.3l1.9-.7c.5-.2 1.1.1 1.3.6Z" />
+      </svg>
+    );
+  },
+  MessageQuestion: (props: LucideProps) => {
+    return (
+      <svg
+        {...props}
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        className="lucide lucide-message-circle-question text-purple-800 h-5 w-5 mr-2"
+      >
+        <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+        <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+        <path d="M12 17h.01" />
       </svg>
     );
   },

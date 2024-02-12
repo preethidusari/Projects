@@ -35,7 +35,7 @@ const FeaturesPage = () => {
               reliable advisor, providing tailored advice and facilitating
               informed decisions in legal matters.
             </p>
-            <Link className="hover:underline text-gray-400" href="/lawque">
+            <Link className="hover:underline text-gray-400" href="/our/lawque">
               Learn More
             </Link>
           </div>

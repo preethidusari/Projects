@@ -22,6 +22,9 @@ export const BotMessageRouter = router({
       where: {
         userId,
       },
+      orderBy: {
+        createdAt: "desc"
+      }
     });
     return userChats ;
   }),
