@@ -1,11 +1,15 @@
-import { LoginLink, LogoutLink, RegisterLink, getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
+import {
+  LoginLink,
+  RegisterLink,
+  getKindeServerSession,
+} from "@kinde-oss/kinde-auth-nextjs/server";
 import MaxWidthWrapper from "../MaxWidthWrapper";
 import Link from "next/link";
 import Image from "next/image";
-import NavbarLink from "./NavbarLink";
 import UserAccountMenu from "./UserAccountMenu";
 import { Separator } from "../ui/separator";
-import { navBarItems } from "./NavbarItems";
+import { LegalDocumentSheet } from "../legal-document/LegalDocumentSheet";
+import { UserNavigationMenu } from "./UserNavigationMenu";
 
 const Navbar = async () => {
   const { getUser } = getKindeServerSession();
@@ -16,20 +20,17 @@ const Navbar = async () => {
   }
   return (
     <nav className="sticky h-16 py-1 inset-x-0 top-0 z-30 w-full border-b border-gray-200 backdrop-blur-lg transition-all bg-[#1D0551]/90">
+      {isLoggedIn && (
+        <div className="absolute left-4 top-2">
+          <LegalDocumentSheet />
+        </div>
+      )}
       <MaxWidthWrapper>
         <div className="lg:px-2 pt-1 flex justify-between items-center">
-          <Link href={isLoggedIn ? '/dashboard' : "/"}>
+          <Link href={isLoggedIn ? "/dashboard" : "/"}>
             <Image src={"/Asset 1.png"} height={48} width={102} alt="logo" />
           </Link>
-          <ol className=" hidden md:flex max-w-2xl items-center text-white text-md font-semibold space-x-16 text-center">
-            {navBarItems.map((item) => {
-              return (
-                <NavbarLink key={item.route} route={item.route}>
-                  <li>{item.head}</li>
-                </NavbarLink>
-              );
-            })}
-          </ol>
+          <UserNavigationMenu isLoggedIn={isLoggedIn} />
           {isLoggedIn ? (
             <div className="flex items-center space-x-4">
               <UserAccountMenu />
