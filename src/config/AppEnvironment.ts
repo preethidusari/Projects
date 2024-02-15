@@ -19,4 +19,4 @@ const appConfig: Environments = {
   },
 };
 
-export const Env: EnvVariables = appConfig.development;
+export const Env: EnvVariables = appConfig.production;
