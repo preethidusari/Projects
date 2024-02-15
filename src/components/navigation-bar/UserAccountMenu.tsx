@@ -90,11 +90,13 @@ const UserAccountMenu = () => {
           <span>API</span>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
+        <LogoutLink>
         <DropdownMenuItem>
           <LogOut className="mr-2 h-4 w-4 text-purple-700" />
-          <LogoutLink>Log out</LogoutLink>
+          Log out
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
         </DropdownMenuItem>
+        </LogoutLink>
       </DropdownMenuContent>
     </DropdownMenu>
   );

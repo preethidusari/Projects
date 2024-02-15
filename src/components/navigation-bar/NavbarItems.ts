@@ -13,11 +13,11 @@ export const navBarItems: NavbarLinks[] = [
     route: "/our/pricing",
   },
   {
-    head: "About us",
-    route: "/our/company",
+    head: "Ask a Question",
+    route: "/queries",
   },
   {
-    head: "Contact us",
-    route: "/our/support",
+    head: "About us",
+    route: "/our/company",
   },
 ];

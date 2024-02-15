@@ -2,6 +2,7 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { privateProcedure, publicProcedure, router } from "@/trpc/config";
 import { TRPCError } from "@trpc/server";
 import { db } from "@/db";
+import { QuestionFormSchema } from "@/types/questionFormSchema";
 
 export const UserRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -54,5 +55,42 @@ export const UserRouter = router({
         rating: true,
       },
     });
+  }),
+  askQuestion: publicProcedure
+    .input(QuestionFormSchema)
+    .mutation(async ({ input }) => {
+      if (input.category === "") {
+        throw new TRPCError({
+          message: "Please select a Category",
+          code: "BAD_REQUEST",
+        });
+      }
+      await db.userQueries.create({
+        data: {
+          userEmail: input.email!,
+          userName: input.name!,
+          userLocation: input.city,
+          queryCategory: input.category,
+          querySubject: input.subject,
+          userQuery: input.query,
+        },
+      });
+    }),
+  getUserQueriesByEmail: privateProcedure.query(async ({ ctx }) => {
+    if (!ctx.email) {
+      throw new TRPCError({
+        message: "Cannot find your Email. Please Login",
+        code: "UNAUTHORIZED",
+      });
+    }
+    const userQueries = await db.userQueries.findMany({
+      where: {
+        userEmail: ctx.email,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+    return userQueries;
   }),
 });

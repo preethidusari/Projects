@@ -30,7 +30,7 @@ export default function RootLayout({
             inter.className
           )}
         >
-          <Toaster position="top-right" richColors/>
+          <Toaster richColors/>
           <Navbar />
           {children}
         </body>
