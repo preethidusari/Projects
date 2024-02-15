@@ -83,7 +83,7 @@ const BotChatMessages = ({ chatId }: BotChatMessagesProps) => {
               />
             );
         })
-      ) : true ? (
+      ) : isLoading ? (
         <div className="w-full h-full flex flex-col gap-16">
           <div className="space-y-7">
             {[...Array(4)].map((_, index) => (
@@ -104,10 +104,6 @@ const BotChatMessages = ({ chatId }: BotChatMessagesProps) => {
               </div>
             ))}
           </div>
-          {/* <Skeleton className='h-16' />
-          <Skeleton className='h-16' />
-          <Skeleton className='h-16' />
-          <Skeleton className='h-16' /> */}
         </div>
       ) : (
         <div className="flex-1 flex flex-col items-center justify-center gap-2">
