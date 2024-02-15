@@ -71,7 +71,7 @@ const BotChatSideMenu = ({ userId, chatId }: BotChatSideMenuProps) => {
             
             <Separator className=" my-2" />
               <StartConversation classname=" w-full mb-2" title="New Chat" />
-            <ul className="space-y-2 h-screen max-h-[calc(100vh-10rem)] scroll-smooth font-medium overflow-y-auto">
+            <ul className="space-y-2 max-h-full scroll-smooth font-medium overflow-y-auto">
               {userChats!.map((chat, i) => {
                 return (
                   <li key={i}>

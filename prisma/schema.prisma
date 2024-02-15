@@ -89,3 +89,35 @@ model BotChat {
   User      User    @relation(fields: [userId], references: [id])
   userId    String
 }
+
+enum UserQueryCategory {
+  divorce
+  property
+  family
+  money
+  employment
+  criminal
+  consumer
+  insurance
+  armed
+  business
+  civil
+  supreme
+  muslim
+  immigration
+}
+
+model UserQueries {
+  id String @id @default(cuid())
+  createdAt DateTime @default(now())
+  userId String?
+  userName String
+  userEmail String
+  userLocation String
+  queryCategory UserQueryCategory
+  querySubject String
+  userQuery String
+  isAnswered Boolean @default(false)
+  answer String?
+  lawyerId String?
+}

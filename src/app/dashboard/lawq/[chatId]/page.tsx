@@ -28,7 +28,7 @@ const BotChatPage = async ({ params }: BotChatPageProps) => {
     if (!chat) return notFound();
 
   return (
-    <div className="flex h-[calc(100vh-4rem)]">
+    <div className="flex bg-red-800">
       <BotChatSideMenu userId={user.id} chatId={chatId} />
       <BotChatBox chatId={chatId} />
     </div>

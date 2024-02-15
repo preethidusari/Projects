@@ -14,7 +14,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { AlignEndHorizontal, FolderLock, Scale } from "lucide-react";
+import { AlignEndHorizontal, Scale, ShieldCheck } from "lucide-react";
 import { navBarItems } from "./NavbarItems";
 import NavbarLink from "./NavbarLink";
 
@@ -25,10 +25,10 @@ interface UserNavigationMenuProps {
 export function UserNavigationMenu({ isLoggedIn }: UserNavigationMenuProps) {
   return isLoggedIn ? (
     <NavigationMenu>
-      <NavigationMenuList className=" space-x-8">
+      <NavigationMenuList className=" space-x-2">
         <NavigationMenuItem>
           <NavigationMenuTrigger>
-            <AlignEndHorizontal className="h-5 w-5 text-purple-800 mr-2" /> LawQue
+            <AlignEndHorizontal className="h-7 w-7 bg-white p-1 rounded-full text-purple-800 mr-1 " /> LawQue
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -57,7 +57,7 @@ export function UserNavigationMenu({ isLoggedIn }: UserNavigationMenuProps) {
         </NavigationMenuItem>
         <NavigationMenuItem>
           <NavigationMenuTrigger>
-            <Scale className="h-5 w-5 mr-2 text-purple-800" /> Lawyers
+            <Scale className="h-7 w-7 bg-white p-1 rounded-full mr-1 text-purple-800" /> Lawyers
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -89,12 +89,12 @@ export function UserNavigationMenu({ isLoggedIn }: UserNavigationMenuProps) {
         <NavigationMenuItem>
           <Link href="/docs" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <FolderLock className=" mr-2 text-purple-800" /> Secure Shell
+              <ShieldCheck className="h-7 w-7 bg-white p-1 rounded-full mr-1 text-purple-800" /> Secure Shell
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/docs" legacyBehavior passHref>
+          <Link href="/queries" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <Icons.MessageQuestion/> Ask a Question
             </NavigationMenuLink>

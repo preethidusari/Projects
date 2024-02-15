@@ -10,12 +10,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import {
-  BookOpen,
-  BookOpenCheck,
-  FolderLock,
   FolderPlus,
-  Library,
-  LucideBookOpen,
 } from "lucide-react";
 import { Icons } from "../Icons";
 
