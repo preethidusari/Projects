@@ -1,28 +1,16 @@
 "use client";
 
 import { trpc } from "@/app/_trpc/client";
-import { Ghost } from "lucide-react";
+import { Ghost, Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { Icons } from "../Icons";
 import { Badge } from "@/components/ui/badge"
+import Skeleton from "react-loading-skeleton";
 
 
 const UserQueries = () => {
-  const { data: queries, isError } = trpc.user.getUserQueriesByEmail.useQuery();
+  const { data: queries, isLoading } = trpc.user.getUserQueriesByEmail.useQuery();
 
-  if (isError) {
-    toast.error("Cannot find your Queries", {
-      description: "Please try again later",
-    });
-    return;
-  }
-
-  if (!queries) {
-    toast.error("Cannot find your Queries", {
-      description: "Please try again later",
-    });
-    return;
-  }
   return (
     <section className="pb-12">
       <div className="container px-6 py-5 mx-auto">
@@ -30,7 +18,13 @@ const UserQueries = () => {
           Your <span className="text-purple-700 ">Queries</span>
         </h1>
       </div>
-      {queries.length === 0 ? (
+      {isLoading ? (
+        <div className=" grid grid-cols-1 gap-8 xl:mb-12 lg:grid-cols-2 xl:grid-cols-3">
+          <Skeleton height={150} width={400} className="my-2" />
+          <Skeleton height={150} width={400} className="my-2" />
+          <Skeleton height={150} width={400} className="my-2" />
+      </div>
+      ) : queries!.length === 0 ? (
         <div className=" flex flex-col items-center gap-2">
           <Ghost className="h-8 w-8 text-zinc-800" />
           <h3 className="text-xl font-semibold">Pretty empty around here</h3>
@@ -38,7 +32,7 @@ const UserQueries = () => {
         </div>
       ) : (
         <section className="grid grid-cols-1 gap-8 xl:mb-12 lg:grid-cols-2 xl:grid-cols-3">
-          {queries.map((query) => {
+          {queries!.map((query) => {
             return (
               <div key={query.id} className="relative px-8 py-4 border rounded-lg dark:border-gray-700">
                 <Badge className="absolute right-2" variant="default">{query.queryCategory}</Badge>
