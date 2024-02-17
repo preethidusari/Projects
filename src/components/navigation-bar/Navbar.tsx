@@ -19,14 +19,14 @@ const Navbar = async () => {
     isLoggedIn = true;
   }
   return (
-    <nav className="sticky h-16 py-1 inset-x-0 top-0 z-30 w-full border-b border-gray-200 backdrop-blur-lg transition-all bg-[#1D0551]/90">
+    <nav className="sticky inset-x-0 top-0 z-30 h-16 w-full border-b border-gray-200 bg-[#1D0551]/90 py-1 backdrop-blur-lg transition-all">
       {isLoggedIn && (
         <div className="absolute left-4 top-2">
           <LegalDocumentSheet />
         </div>
       )}
       <MaxWidthWrapper>
-        <div className="lg:px-2 pt-1 flex justify-between items-center">
+        <div className="flex items-center justify-between pt-1 lg:px-2">
           <Link href={isLoggedIn ? "/dashboard" : "/"}>
             <Image src={"/Asset 1.png"} height={48} width={102} alt="logo" />
           </Link>
@@ -37,11 +37,11 @@ const Navbar = async () => {
             </div>
           ) : (
             <div className="flex items-center space-x-4">
-              <RegisterLink className="z-10 px-5 py-2 rounded-lg text-purple-700 bg-white text-lg font-semibold hover:shadow-md hover:underline duration-100 ">
+              <RegisterLink className="z-10 rounded-lg bg-white px-5 py-2 text-lg font-semibold text-purple-700 duration-100 hover:underline hover:shadow-md ">
                 Try Now
               </RegisterLink>
               <Separator className="h-7" orientation="vertical" />
-              <LoginLink className="z-10 px-5 py-[0.46rem] rounded-lg text-white bg-purple-700 text-lg font-semibold hover:shadow-md hover:bg-purple-600 duration-100 ">
+              <LoginLink className="z-10 rounded-lg bg-purple-700 px-5 py-[0.46rem] text-lg font-semibold text-white duration-100 hover:bg-purple-600 hover:shadow-md ">
                 Sign In
               </LoginLink>
             </div>

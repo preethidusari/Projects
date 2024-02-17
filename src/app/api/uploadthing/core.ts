@@ -5,6 +5,8 @@ import { PDFLoader } from "langchain/document_loaders/fs/pdf";
 import { pinecone } from "@/lib/pinecone";
 import { PineconeStore } from "@langchain/community/vectorstores/pinecone";
 import { OpenAIEmbeddings } from "@langchain/openai";
+import { cookies } from "next/headers";
+import { jwtVerify } from "jose";
 
 const f = createUploadthing();
 
@@ -53,7 +55,7 @@ export const ourFileRouter = {
 
         await PineconeStore.fromDocuments(pageLevelDocs, embeddings, {
           pineconeIndex,
-          namespace: createdFile.id
+          namespace: createdFile.id,
         });
         await db.file.update({
           data: {
@@ -66,13 +68,58 @@ export const ourFileRouter = {
       } catch (error) {
         await db.file.update({
           data: {
-            uploadStatus: "FAILED"
+            uploadStatus: "FAILED",
           },
           where: {
-            id: createdFile.id
-          }
-        })
+            id: createdFile.id,
+          },
+        });
       }
+    }),
+  securePdfUploader: f({ pdf: { maxFileSize: "4MB" } })
+    // Set permissions and file types for this FileRoute
+    .middleware(async ({ req }) => {
+      const { getUser } = getKindeServerSession();
+      const user = getUser();
+
+      if (!user || !user.id) throw new Error("Unauthorized");
+
+      const shellToken = req.cookies.get("shell_token");
+
+      if (!shellToken) {
+        console.log("Token")
+        throw new Error("Permission Denied");
+      }
+
+      try {
+        const verified = (
+          await jwtVerify(
+            shellToken.value,
+            new TextEncoder().encode(process.env.SHELL_SECRET)
+          )
+        ).payload as { userId: string };
+        if (!verified.userId) {
+          console.log("User not found")
+          throw new Error("Permission Denied");
+        }
+      } catch (error) {
+        console.log(error)
+        throw new Error("Permission Denied");
+      }
+
+      return { userId: user.id };
+    })
+    .onUploadComplete(async ({ metadata, file }) => {
+      await db.file.create({
+        data: {
+          key: file.key,
+          name: file.name,
+          userId: metadata.userId,
+          isSecured: true,
+          url: `https://uploadthing-prod.s3.us-west-2.amazonaws.com/${file.key}`,
+          uploadStatus: "SUCCESS",
+        },
+      });
     }),
 } satisfies FileRouter;
 

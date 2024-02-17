@@ -10,7 +10,7 @@ export default function Home() {
   const user = getUser();
   return (
     <>
-      <MaxWidthWrapper className="mb-12 mt-28 sm:mt-40 flex flex-col items-center justify-center text-center">
+      <MaxWidthWrapper className="mb-12 mt-28 flex flex-col items-center justify-center text-center sm:mt-40">
         <div className=" mx-auto mb-4 flex max-w-fit items-center justify-center space-x-2 overflow-hidden rounded-full border border-gray-200 bg-white px-7 py-2 shadow-md backdrop-blur transition-all hover:border-gray-300 hover:bg-white/50">
           <p className="pointer-events-none select-none text-sm font-semibold text-gray-700">
             LawQue is now Public!
@@ -20,14 +20,14 @@ export default function Home() {
           Chat with your <span className="text-purple-600">documents</span> in
           seconds.
         </h1>
-        <p className="mt-5 max-w-prose text-zinc-700 z-10 sm:text-xl">
+        <p className="z-10 mt-5 max-w-prose text-zinc-700 sm:text-xl">
           LawQue allows you to have a conversation with your document. Simply
           upload your file and start a fresh conversation right away.
         </p>
         <Link
           className={buttonVariants({
             size: "lg",
-            className: "mt-5 z-10 bg-purple-500 font-semibold text-lg",
+            className: "z-10 mt-5 bg-purple-500 text-lg font-semibold",
           })}
           href="/dashboard"
           target="_blank"
@@ -62,7 +62,7 @@ export default function Home() {
                     width={1364}
                     height={866}
                     draggable="false"
-                    className="none rounded-md bg-white p-2 sm:p-8 md:p-20 shadow-2xl ring-1 ring-gray-900/10 "
+                    className="none rounded-md bg-white p-2 shadow-2xl ring-1 ring-gray-900/10 sm:p-8 md:p-20 "
                   />
                 </div>
               </div>
@@ -87,7 +87,7 @@ export default function Home() {
       <div className="mx-auto mb-32 mt-32 max-w-5xl sm:mt-44">
         <div className="mb-12 px-6 lg:px-8">
           <div className="mx-auto max-w-2xl sm:text-center">
-            <h2 className="mt-2 font-bold text-4xl text-gray-900 sm:text-5xl">
+            <h2 className="mt-2 text-4xl font-bold text-gray-900 sm:text-5xl">
               Start chatting in Minutes
             </h2>
             <p className="mt-4 text-lg text-gray-600">
@@ -151,7 +151,7 @@ export default function Home() {
                 width={1419}
                 height={732}
                 draggable="false"
-                className="rounded-md bg-white p-2 sm:p-8 md:p-20 shadow-2xl ring-1 ring-gray-900/10 "
+                className="rounded-md bg-white p-2 shadow-2xl ring-1 ring-gray-900/10 sm:p-8 md:p-20 "
               />
             </div>
           </div>

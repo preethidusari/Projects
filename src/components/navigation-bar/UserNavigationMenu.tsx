@@ -87,7 +87,7 @@ export function UserNavigationMenu({ isLoggedIn }: UserNavigationMenuProps) {
           </NavigationMenuContent>
         </NavigationMenuItem>
         <NavigationMenuItem>
-          <Link href="/docs" legacyBehavior passHref>
+          <Link href="/secure/shell" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
               <ShieldCheck className="h-7 w-7 bg-white p-1 rounded-full mr-1 text-purple-800" /> Secure Shell
             </NavigationMenuLink>

@@ -1,6 +1,6 @@
 "use client";
 import { trpc } from "@/app/_trpc/client";
-import UploadButton from "./UploadButton";
+import UploadButton from "../dashboard/UploadButton";
 import { FileCheck2, Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
@@ -19,14 +19,14 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 
-const MyFiles = () => {
-  const utils = trpc.useContext();
+const MySecuredFiles = () => {
+  const utils = trpc.useUtils();
 
   const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
     string | null
   >(null);
 
-  const { data: files, isLoading } = trpc.file.getUserFiles.useQuery();
+  const { data: files, isLoading } = trpc.shell.getUserFiles.useQuery();
 
   const { mutate: deleteFile } = trpc.file.deleteFile.useMutation({
     onSuccess: () => {
@@ -41,9 +41,9 @@ const MyFiles = () => {
   });
 
   return (
-    <main className="mx-auto max-w-7xl md:p-10">
-      <div className=" mt-8 flex flex-col items-start justify-between gap-4 border-b border-gray-200 pb-5 sm:flex-row sm:items-center sm:gap-0">
-        <h1 className="mb-3 font-bold text-5xl text-gray-900">My Files</h1>
+    <main className="mx-auto max-w-7xl mt-4 md:p-8">
+      <div className=" flex flex-col items-start justify-between gap-4 pb-5 sm:flex-row sm:items-center sm:gap-0">
+        <h1 className="mb-3 font-bold text-4xl text-gray-900">Encrypted Files</h1>
       </div>
 
       {/* Display all user files */}
@@ -122,7 +122,7 @@ const MyFiles = () => {
                 </div>
               </li>
             ))}
-          <UploadButton isSecureFile={false} className="w-2/3" />
+          <UploadButton isSecureFile={true} className="w-2/3" />
         </ul>
       ) : isLoading ? (
         <Skeleton height={100} className="my-2" count={3} />
@@ -131,11 +131,11 @@ const MyFiles = () => {
           <Ghost className="h-8 w-8 text-zinc-800" />
           <h3 className="font-semibold text-xl">Pretty empty around here</h3>
           <p>Let&apos;s upload your first PDF.</p>
-          <UploadButton isSecureFile={false} className="w-fit" />
+          <UploadButton isSecureFile={true} className="w-fit" />
         </div>
       )}
     </main>
   );
 };
 
-export default MyFiles;
+export default MySecuredFiles;

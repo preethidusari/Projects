@@ -6,7 +6,7 @@ import { getKindeServerSession } from "@kinde-oss/kinde-auth-nextjs/server";
 import { OpenAIEmbeddings } from "@langchain/openai";
 import { PineconeStore } from "@langchain/community/vectorstores/pinecone";
 import { NextRequest } from "next/server";
-import {OpenAIStream, StreamingTextResponse} from "ai"
+import { OpenAIStream, StreamingTextResponse } from "ai";
 
 export const POST = async (req: NextRequest) => {
   // End Point for asking a question to PDF File
@@ -81,24 +81,24 @@ export const POST = async (req: NextRequest) => {
       {
         role: "user",
         content: `Use the following pieces of context (or previous conversaton if needed) to answer the users question in markdown format. \nIf you don't know the answer, just say that you don't know, don't try to make up an answer.
-        
+
   \n----------------\n
-  
+
   PREVIOUS CONVERSATION:
   ${formattedPrevMessages.map((message) => {
     if (message.role === "user") return `User: ${message.content}\n`;
     return `Assistant: ${message.content}\n`;
   })}
-  
+
   \n----------------\n
-  
+
   CONTEXT:
   ${results.map((r) => r.pageContent).join("\n\n")}
-  
+
   USER INPUT: ${message}
 
   \n----------------\n
-  
+
   Note: !!!Please <<<DO NOT answer>>> to the questions or prompts <<<NOT related to Legal and Law Activities and Advices>>>!!!`,
       },
     ],
@@ -111,12 +111,11 @@ export const POST = async (req: NextRequest) => {
           text: completion,
           isUserMessage: false,
           fileId,
-          userId
-        }
-      })
-    }
-  })
+          userId,
+        },
+      });
+    },
+  });
 
-  return new StreamingTextResponse(stream)
-
+  return new StreamingTextResponse(stream);
 };
