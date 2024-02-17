@@ -87,7 +87,6 @@ export const ourFileRouter = {
       const shellToken = req.cookies.get("shell_token");
 
       if (!shellToken) {
-        console.log("Token")
         throw new Error("Permission Denied");
       }
 
@@ -99,11 +98,9 @@ export const ourFileRouter = {
           )
         ).payload as { userId: string };
         if (!verified.userId) {
-          console.log("User not found")
           throw new Error("Permission Denied");
         }
       } catch (error) {
-        console.log(error)
         throw new Error("Permission Denied");
       }
 

@@ -30,17 +30,9 @@ const UploadButton = ({ className, isSecureFile }: UploadButtonProps) => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUplpoadProgress] = useState(0);
 
-  const startUploading = (isSecureFile: boolean) => {
-    if (isSecureFile)
-      return {
-        startUpload: useUploadThing("securePdfUploader").startUpload
-      };
-    return {
-      startUpload: useUploadThing("pdfUploader").startUpload,
-    };
-  };
+  const pdfUploader = isSecureFile ? "securePdfUploader" : "pdfUploader"
 
-  const { startUpload } = startUploading(isSecureFile);
+  const { startUpload } = useUploadThing(pdfUploader);
 
   const { mutate: startPolling } = isSecureFile
     ? trpc.shell.getFile.useMutation({
@@ -131,18 +123,24 @@ const UploadButton = ({ className, isSecureFile }: UploadButtonProps) => {
             // handle file uploading
             const res = await startUpload(acceptedFile);
             if (!res) {
-              return toast.warning("Something went wrong!", {
-                description: "Please try again later",
+              setIsOpen(!isOpen)
+              toast.warning("Session expired!", {
+                description: "Please Login again",
               });
+              router.push("/secure");
+              return
             }
 
             const [fileResponse] = res;
 
             const key = fileResponse?.key;
             if (!key) {
-              return toast.warning("Something went wrong!", {
-                description: "Please try again later",
+              setIsOpen(!isOpen)
+              toast.warning("Session expired!", {
+                description: "Please Login again",
               });
+              router.push("/secure")
+              return;
             }
 
             clearInterval(progressInterval);
@@ -192,7 +190,7 @@ const UploadButton = ({ className, isSecureFile }: UploadButtonProps) => {
                       {uploadProgress === 100 ? (
                         <div className="flex gap-1 items-center justify-center text-sm text-zinc-700 text-center pt-2">
                           <Loader2 className="h-3 w-3 animate-spin" />
-                          Redirecting...
+                          Encrypting...
                         </div>
                       ) : null}
                     </div>
