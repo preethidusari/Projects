@@ -1,7 +1,7 @@
 "use client";
 import { trpc } from "@/app/_trpc/client";
 import UploadButton from "../dashboard/UploadButton";
-import { FileCheck2, Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
+import { FileCheck2, Ghost, Loader2, MessageSquare, Plus, ShieldCheck, Trash } from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
 import { Button } from "../ui/button";
@@ -18,6 +18,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import { toast } from "sonner";
 
 const MySecuredFiles = () => {
   const utils = trpc.useUtils();
@@ -28,9 +29,10 @@ const MySecuredFiles = () => {
 
   const { data: files, isLoading } = trpc.shell.getUserFiles.useQuery();
 
-  const { mutate: deleteFile } = trpc.file.deleteFile.useMutation({
-    onSuccess: () => {
-      utils.file.getUserFiles.invalidate();
+  const { mutate: deleteFile } = trpc.shell.deleteFile.useMutation({
+    onSuccess: (file) => {
+      toast.success(`${file.name}`, {description: "Deleted Successfully"})
+      utils.shell.getUserFiles.invalidate();
     },
     onMutate: ({ id }) => {
       setCurrentlyDeletingFile(id);
@@ -61,7 +63,7 @@ const MySecuredFiles = () => {
                 className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg"
               >
                 <Link
-                  href={`/dashboard/lawq/f/${file.id}`}
+                  href={"#"}
                   className="flex flex-col gap-2"
                 >
                   <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
@@ -83,8 +85,8 @@ const MySecuredFiles = () => {
                     {format(new Date(file.createdAt), "MMM yyyy")}
                   </div>
                   <div className="flex items-center gap-2">
-                    <MessageSquare className="h-4 w-4" />
-                    mocked
+                    <ShieldCheck className="h-4 w-4" />
+                    Encrypted
                   </div>
 
                   <AlertDialog>
