@@ -13,22 +13,22 @@ interface BotChatPageProps {
 const BotChatPage = async ({ params }: BotChatPageProps) => {
   const { chatId } = params;
 
-    const { getUser } = getKindeServerSession();
-    const user = getUser();
+  const { getUser } = getKindeServerSession();
+  const user = getUser();
 
-    if (!user || !user.id) redirect(`/auth-callback?origin=dashboard/${chatId}`);
+  if (!user || !user.id) redirect(`/auth-callback?origin=dashboard/${chatId}`);
 
-    const chat = await db.botChat.findFirst({
-      where: {
-        id: chatId,
-        userId: user.id,
-      },
-    });
+  const chat = await db.botChat.findFirst({
+    where: {
+      id: chatId,
+      userId: user.id,
+    },
+  });
 
-    if (!chat) return notFound();
+  if (!chat) return notFound();
 
   return (
-    <div className="flex bg-red-800">
+    <div className="flex">
       <BotChatSideMenu userId={user.id} chatId={chatId} />
       <BotChatBox chatId={chatId} />
     </div>

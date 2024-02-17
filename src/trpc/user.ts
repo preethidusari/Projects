@@ -65,7 +65,7 @@ export const UserRouter = router({
           code: "BAD_REQUEST",
         });
       }
-      await db.userQueries.create({
+      return await db.userQueries.create({
         data: {
           userEmail: input.email!,
           userName: input.name!,

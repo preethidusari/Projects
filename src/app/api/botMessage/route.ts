@@ -64,20 +64,20 @@ export const POST = async (req: NextRequest) => {
       {
         role: "user",
         content: `Use the following pieces of context (or previous conversaton if needed) to answer the users question in markdown format. \nIf you don't know the answer, just say that you don't know, don't try to make up an answer.
-            
+
       \n----------------\n
-      
+
       PREVIOUS CONVERSATION:
       ${formattedPrevMessages.map((message) => {
         if (message.role === "User") return `User: ${message.content}\n`;
         return `LawQ: ${message.content}\n`;
       })}
-      
+
       USER INPUT: ${message}
-    
+
       \n----------------\n
-      
-      Note: !!!Please <<<Warn the User>>> to the questions or prompts <<<NOT related to Legal and Law Activities and Advices>>>!!!. If user conintues to ask random questions, <<<Do not answer his question. Ask user to change the Question>>> `,
+
+      Note: !!!Please Warn the User to the questions or prompts .NOT related to Legal and Law Activities and Advices!!!. If user conintues to ask random questions, Do not answer his question. Ask user to change the Question`,
       },
     ],
   });
@@ -95,5 +95,5 @@ export const POST = async (req: NextRequest) => {
     },
   });
 
-  return new StreamingTextResponse(botResponseStream)
+  return new StreamingTextResponse(botResponseStream);
 };

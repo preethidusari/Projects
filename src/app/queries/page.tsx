@@ -14,7 +14,7 @@ const QueriesPage = () => {
     <div className="container mt-10">
       {/* Header */}
       <section className=" w-full">
-        <h1 className="text-6xl text-purple-800 font-semibold">
+        <h1 className="text-6xl font-semibold text-purple-800">
           Ask a Legal Question{" "}
         </h1>
         <br />

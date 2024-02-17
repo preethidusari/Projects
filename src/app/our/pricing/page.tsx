@@ -74,9 +74,9 @@ const PricingPage = () => {
 
   return (
     <>
-      <MaxWidthWrapper className="mb-8 mt-24 text-center max-w-5xl">
+      <MaxWidthWrapper className="mb-8 mt-24 max-w-5xl text-center">
         <div className="mx-auto mb-10 sm:max-w-lg">
-          <h1 className="font-bold text-purple-800 text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="text-5xl font-bold text-purple-800 md:text-6xl lg:text-7xl">
             Our Pricing
           </h1>
           <p className="mt-5 text-gray-600 sm:text-lg">
@@ -85,7 +85,7 @@ const PricingPage = () => {
           </p>
         </div>
 
-        <div className="pt-12 grid grid-cols-1 gap-10 lg:grid-cols-2">
+        <div className="grid grid-cols-1 gap-10 pt-12 lg:grid-cols-2">
           <TooltipProvider>
             {pricingItems.map(({ plan, tagline, quota, features }) => {
               const price =
@@ -108,11 +108,11 @@ const PricingPage = () => {
                   )}
 
                   <div className="p-5">
-                    <h3 className="my-3 text-center font-display text-3xl font-bold">
+                    <h3 className="font-display my-3 text-center text-3xl font-bold">
                       {plan}
                     </h3>
                     <p className="text-gray-500">{tagline}</p>
-                    <p className="my-5 font-display text-6xl font-semibold">
+                    <p className="font-display my-5 text-6xl font-semibold">
                       ₹{price}
                     </p>
                     <p className="text-gray-500">per month</p>
@@ -123,7 +123,7 @@ const PricingPage = () => {
                       <p>{quota.toLocaleString()} PDFs/mo included</p>
 
                       <Tooltip delayDuration={300}>
-                        <TooltipTrigger className="cursor-default ml-1.5">
+                        <TooltipTrigger className="ml-1.5 cursor-default">
                           <HelpCircle className="h-4 w-4 text-zinc-500" />
                         </TooltipTrigger>
                         <TooltipContent className="w-80 p-2">
@@ -153,7 +153,7 @@ const PricingPage = () => {
                               {text}
                             </p>
                             <Tooltip delayDuration={300}>
-                              <TooltipTrigger className="cursor-default ml-1.5">
+                              <TooltipTrigger className="ml-1.5 cursor-default">
                                 <HelpCircle className="h-4 w-4 text-zinc-500" />
                               </TooltipTrigger>
                               <TooltipContent className="w-80 p-2">
@@ -184,7 +184,7 @@ const PricingPage = () => {
                         })}
                       >
                         {user ? "Upgrade now" : "Sign up"}
-                        <ArrowRight className="h-5 w-5 ml-1.5" />
+                        <ArrowRight className="ml-1.5 h-5 w-5" />
                       </Link>
                     ) : user ? (
                       <UpgradeButton />
@@ -196,7 +196,7 @@ const PricingPage = () => {
                         })}
                       >
                         {user ? "Upgrade now" : "Sign up"}
-                        <ArrowRight className="h-5 w-5 ml-1.5" />
+                        <ArrowRight className="ml-1.5 h-5 w-5" />
                       </Link>
                     )}
                   </div>

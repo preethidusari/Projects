@@ -13,7 +13,7 @@ export default function Home() {
     <div className="space-y-24">
       <Intro />
       <IntroChat />
-      <Footer/>
+      <Footer />
     </div>
   );
 }

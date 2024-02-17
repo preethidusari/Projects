@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogTrigger,
 } from "../ui/dialog";
-import { Button } from "../ui/button";
 
 import Dropzone from "react-dropzone";
 import { Cloud, File, Loader2, Plus, X } from "lucide-react";
@@ -18,7 +17,12 @@ import { trpc } from "@/app/_trpc/client";
 import { useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 
-const UploadButton = ({ className }: { className: string }) => {
+interface UploadButtonProps {
+  isSecureFile: boolean;
+  className?: string;
+}
+
+const UploadButton = ({ className, isSecureFile }: UploadButtonProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const router = useRouter();
@@ -26,15 +30,32 @@ const UploadButton = ({ className }: { className: string }) => {
   const [isUploading, setIsUploading] = useState(false);
   const [uploadProgress, setUplpoadProgress] = useState(0);
 
-  const { startUpload } = useUploadThing("pdfUploader");
+  const startUploading = (isSecureFile: boolean) => {
+    if (isSecureFile)
+      return {
+        startUpload: useUploadThing("securePdfUploader").startUpload
+      };
+    return {
+      startUpload: useUploadThing("pdfUploader").startUpload,
+    };
+  };
 
-  const { mutate: startPolling } = trpc.file.getFile.useMutation({
-    onSuccess: (file) => {
-      router.push(`/dashboard/lawq/f/${file?.id}`);
-    },
-    retry: true,
-    retryDelay: 500,
-  });
+  const { startUpload } = startUploading(isSecureFile);
+
+  const { mutate: startPolling } = isSecureFile
+    ? trpc.shell.getFile.useMutation({
+        onSuccess: () => {
+          const utils = trpc.useUtils();
+          utils.shell.getUserFiles.invalidate();
+        },
+      })
+    : trpc.file.getFile.useMutation({
+        onSuccess: (file) => {
+          router.push(`/dashboard/lawq/f/${file?.id}`);
+        },
+        retry: true,
+        retryDelay: 500,
+      });
 
   const startSimulatedProgress = () => {
     setUplpoadProgress(0);
@@ -190,8 +211,8 @@ const UploadButton = ({ className }: { className: string }) => {
         </Dropzone>
         <DialogClose
           onClick={(event) => {
-            event.preventDefault()
-            if (!isUploading) {
+            if (isUploading) {
+              event.preventDefault();
               toast.warning("File uploading...", {
                 description: "Please wait",
               });
