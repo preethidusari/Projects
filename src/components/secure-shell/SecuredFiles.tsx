@@ -19,15 +19,28 @@ import {
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const MySecuredFiles = () => {
   const utils = trpc.useUtils();
+  const router = useRouter()
 
   const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
     string | null
   >(null);
 
-  const { data: files, isLoading } = trpc.shell.getUserFiles.useQuery();
+  const { data: files, isLoading } = trpc.shell.getUserFiles.useQuery(undefined, {
+    retry: (_count, err) => {
+      if(err.data?.code === "FORBIDDEN") return false
+      return true
+    },
+    onError: (err) => {
+      if(err.data?.code==="FORBIDDEN") {
+        toast.warning("Session timed out!", {description: "Please Login again!"})
+        router.push("/secure")
+      } 
+    }
+  });
 
   const { mutate: deleteFile } = trpc.shell.deleteFile.useMutation({
     onSuccess: (file) => {

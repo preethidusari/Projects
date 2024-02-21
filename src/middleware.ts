@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
     const shellToken = req.cookies.get("shell_token")?.value;
     if (!shellToken) {
       url.pathname = "/secure";
-      return NextResponse.rewrite(url);
+      return NextResponse.redirect(url);
     }
     try {
       const verified = (
@@ -18,21 +18,20 @@ export async function middleware(req: NextRequest) {
         )
       ).payload as { userId: string };
       if (verified.userId) {
-        url.pathname = "/secure/shell"
-        return NextResponse.rewrite(url);
+        return NextResponse.next();
       } else {
         url.pathname = "/secure"
-        return NextResponse.rewrite(url);
+        return NextResponse.redirect(url);
       }
     } catch (error) {
       url.pathname = "/secure"
-      return NextResponse.rewrite(url);
+      return NextResponse.redirect(url);
     }
   }
 }
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/auth-callback", "/secure/:path*"],
+  matcher: ["/dashboard/:path*", "/auth-callback", "/secure/shell"],
 };
 
 export default authMiddleware;

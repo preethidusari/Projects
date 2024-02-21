@@ -45,7 +45,7 @@ const PasswordForm = ({label}:PasswordFormProps) => {
       toast.success("Successfull!", {
         description: "Here is your Secure Shell!",
       });
-      router.refresh();
+      router.push("/secure/shell");
     } else {
       toast.error("Invalid Password", {description: "Please try again!"})
     }
