@@ -13,6 +13,7 @@ export const FileRouter = router({
     return await db.file.findMany({
       where: {
         userId,
+        isSecured: false,
       },
     });
   }),
@@ -60,14 +61,18 @@ export const FileRouter = router({
 
       if (!file) throw new TRPCError({ code: "NOT_FOUND" });
 
-      const utApi = new UTApi()
-      const {success: isDeleted} = await utApi.deleteFiles(file.key)
+      const utApi = new UTApi();
+      const { success: isDeleted } = await utApi.deleteFiles(file.key);
 
-      if(!isDeleted) throw new TRPCError({code: "INTERNAL_SERVER_ERROR", message: "Something went wrong! Please try again"})
+      if (!isDeleted)
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: "Something went wrong! Please try again",
+        });
 
-      const pineconeIndex = pinecone.Index("quill").namespace(input.id)
+      const pineconeIndex = pinecone.Index("quill").namespace(input.id);
 
-      await pineconeIndex.deleteAll()
+      await pineconeIndex.deleteAll();
 
       await db.file.delete({
         where: {

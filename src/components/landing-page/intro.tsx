@@ -1,7 +1,5 @@
 import { RegisterLink } from "@kinde-oss/kinde-auth-nextjs/server";
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 
 const Intro = () => {
   return (
@@ -30,9 +28,7 @@ const Intro = () => {
               </p>
             </div>
             {/* <p className='text-black font-medium text-lg mt-6'>We believe that legal assistance should be accessible to everyone. LawQue connects you with our network of professional lawyers, providing you with the guidance and support you need, whenever you need it. Whether you're seeking advice, consultations, or full legal representation, our platform ensures a seamless experience</p> */}
-            <RegisterLink
-              className="border-2 bg-purple-800 rounded-xl text-lg text-white px-8 py-4 font-bold shadow-md"
-            >
+            <RegisterLink className="border-2 bg-purple-800 rounded-xl text-lg text-white px-8 py-4 font-bold shadow-md">
               Get Started
             </RegisterLink>
           </div>
