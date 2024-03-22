@@ -19,48 +19,45 @@ export const POST = async (req: NextRequest) => {
 
   const { password } = checkPasswordValidator.parse(body);
 
-  try {
-    const securedUser = await db.user.findFirst({
+  // try {
+  const securedUser = await db.user.findFirst({
+    where: {
+      id: userId,
+    },
+    select: {
+      shellPass: true,
+    },
+  });
+
+  if (!securedUser?.shellPass) {
+    const hashedPass = await bcrypt.hash(password, 10);
+    await db.user.update({
+      data: {
+        shellPass: hashedPass,
+      },
       where: {
         id: userId,
       },
-      select: {
-        shellPass: true,
-      },
     });
-
-    if (!securedUser?.shellPass) {
-      const hashedPass = await bcrypt.hash(password, 10);
-      await db.user.update({
-        data: {
-          shellPass: hashedPass,
-        },
-        where: {
-          id: userId,
-        },
-      });
-    } else {
-      const passMatch = await bcrypt.compare(password, securedUser.shellPass);
-      if (!passMatch) {
-        return NextResponse.json(
-          { error: "Invalid Password" },
-          { status: 401 }
-        );
-      }
+  } else {
+    const passMatch = await bcrypt.compare(password, securedUser.shellPass);
+    if (!passMatch) {
+      return NextResponse.json({ error: "Invalid Password" }, { status: 401 });
     }
-
-    const token = jwt.sign({ userId: userId }, secret, { expiresIn: "5m" });
-
-    return new Response(JSON.stringify({ Message: "Successfull!" }), {
-      status: 200,
-      headers: {
-        "Set-Cookie": `shell_token=${token}; Path=/; HttpOnly; Max-Age=600`,
-      },
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { error: error, message: "Internal Server error" },
-      { status: 500 }
-    );
   }
+
+  const token = jwt.sign({ userId: userId }, secret, { expiresIn: "5m" });
+
+  return new Response(JSON.stringify({ Message: "Successfull!" }), {
+    status: 200,
+    headers: {
+      "Set-Cookie": `shell_token=${token}; Path=/; HttpOnly; Max-Age=600`,
+    },
+  });
+  // } catch (error) {
+  //   return NextResponse.json(
+  //     { error: error, message: "Internal Server error" },
+  //     { status: 500 }
+  //   );
+  // }
 };
