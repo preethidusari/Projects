@@ -14,21 +14,29 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { AlignEndHorizontal, Scale, ShieldCheck } from "lucide-react";
+import { AlignEndHorizontal, Clock7, Scale, ShieldCheck } from "lucide-react";
 import { navBarItems } from "./NavbarItems";
 import NavbarLink from "./NavbarLink";
+import { Badge } from "../ui/badge";
 
 interface UserNavigationMenuProps {
   isLoggedIn: boolean;
+  isAdvisor: boolean | undefined;
+  isAdmin: boolean | undefined;
 }
 
-export function UserNavigationMenu({ isLoggedIn }: UserNavigationMenuProps) {
+export function UserNavigationMenu({
+  isLoggedIn,
+  isAdvisor,
+  isAdmin,
+}: UserNavigationMenuProps) {
   return isLoggedIn ? (
     <NavigationMenu>
       <NavigationMenuList className=" space-x-2">
         <NavigationMenuItem>
           <NavigationMenuTrigger>
-            <AlignEndHorizontal className="h-7 w-7 bg-white p-1 rounded-full text-purple-800 mr-1 " /> LawQue
+            <AlignEndHorizontal className="h-7 w-7 bg-white p-1 rounded-full text-purple-800 mr-1 " />{" "}
+            LawQue
           </NavigationMenuTrigger>
           <NavigationMenuContent>
             <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
@@ -55,48 +63,67 @@ export function UserNavigationMenu({ isLoggedIn }: UserNavigationMenuProps) {
             </ul>
           </NavigationMenuContent>
         </NavigationMenuItem>
-        <NavigationMenuItem>
-          <NavigationMenuTrigger>
-            <Scale className="h-7 w-7 bg-white p-1 rounded-full mr-1 text-purple-800" /> Lawyers
-          </NavigationMenuTrigger>
-          <NavigationMenuContent>
-            <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
-              <li className="row-span-3">
-                <NavigationMenuLink asChild>
-                  <Link
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md"
-                    href="/our/lawque"
-                  >
-                    <Scale className="h-6 w-6 text-purple-800" />
-                    <div className="mb-2 mt-4 text-lg font-medium">
-                      Legal Advisor
+
+        {isAdvisor ? (
+          <NavigationMenuItem>
+            <Link href="/dashboard/appointments" legacyBehavior passHref>
+              <NavigationMenuLink className={navigationMenuTriggerStyle()}>
+                <Clock7 className="h-7 w-7 bg-white p-1 rounded-full mr-1 text-purple-800" />{" "}
+                Your Appointments
+              </NavigationMenuLink>
+            </Link>
+          </NavigationMenuItem>
+        ) : (
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>
+              <Scale className="h-7 w-7 bg-white p-1 rounded-full mr-1 text-purple-800" />{" "}
+              Lawyers
+            </NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className="grid gap-3 p-4 md:w-[400px] lg:w-[500px] lg:grid-cols-[.75fr_1fr]">
+                <li className="row-span-3">
+                  <NavigationMenuLink asChild>
+                    <div className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted/50 to-muted p-6 no-underline outline-none focus:shadow-md">
+                      <Scale className="h-6 w-6 text-purple-800" />
+                      <div className="mb-2 mt-4 text-lg font-medium">
+                        Legal Advisor
+                      </div>
+                      <p className="text-sm leading-tight text-muted-foreground">
+                        Platform where you can find a best Legal Advisor
+                      </p>
                     </div>
-                    <p className="text-sm leading-tight text-muted-foreground">
-                      Platform where you can find a best Legal Advisor
-                    </p>
-                  </Link>
-                </NavigationMenuLink>
-              </li>
-              <ListItem href="/dashboard" title="Schedule an Appointment">
-                Schedule an Appointment with well Practiced Lawyers.
-              </ListItem>
-              <ListItem href="/dashboard" title="Chat with Attorney">
-                Chat with Attorney to get assistance in your Legal Proceedings.
-              </ListItem>
-            </ul>
-          </NavigationMenuContent>
-        </NavigationMenuItem>
+                  </NavigationMenuLink>
+                </li>
+                <ListItem
+                  href="/dashboard/appointments"
+                  title="Schedule an Appointment"
+                >
+                  Schedule an Appointment with well Practiced Lawyers.
+                </ListItem>
+                <ListItem
+                  href="/dashboard"
+                  title="Chat with Attorney (coming soon)"
+                >
+                  Chat with Attorney to get assistance in your Legal
+                  Proceedings.
+                </ListItem>
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        )}
         <NavigationMenuItem>
           <Link href="/secure/shell" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <ShieldCheck className="h-7 w-7 bg-white p-1 rounded-full mr-1 text-purple-800" /> Secure Shell
+              <ShieldCheck className="h-7 w-7 bg-white p-1 rounded-full mr-1 text-purple-800" />{" "}
+              Secure Shell
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>
         <NavigationMenuItem>
           <Link href="/queries" legacyBehavior passHref>
             <NavigationMenuLink className={navigationMenuTriggerStyle()}>
-              <Icons.MessageQuestion/> Ask a Question
+              <Icons.MessageQuestion />{" "}
+              {isAdvisor ? "Answer a Question" : "Ask a Question"}
             </NavigationMenuLink>
           </Link>
         </NavigationMenuItem>

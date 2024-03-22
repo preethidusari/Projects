@@ -1,5 +1,4 @@
 export const categoryValues = [
-  "",
   "divorce",
   "property",
   "family",

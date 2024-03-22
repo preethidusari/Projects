@@ -61,14 +61,10 @@ const QuestionForm = ({ isLoggedIn }: QuestionFormProps) => {
     resolver: zodResolver(QuestionFormSchema),
     defaultValues: isLoggedIn
       ? {
-          category: "",
-          city: "",
           subject: "",
           query: "",
         }
       : {
-          category: "",
-          city: "",
           subject: "",
           query: "",
           name: "",
@@ -76,14 +72,14 @@ const QuestionForm = ({ isLoggedIn }: QuestionFormProps) => {
         },
   });
 
-  const utils = trpc.useUtils()
+  const utils = trpc.useUtils();
 
   const { mutate: postQuestion } = trpc.user.askQuestion.useMutation({
-    onSuccess: () =>{
+    onSuccess: () => {
       toast.success("Question Posetd", {
         description: "Our Attorney will answer your Query shortly",
       });
-      utils.user.getUserQueriesByEmail.invalidate()
+      utils.user.getUserQueriesByEmail.invalidate();
     },
     onError: (error) =>
       toast.error("Something went wrong", { description: error.message }),
@@ -95,7 +91,7 @@ const QuestionForm = ({ isLoggedIn }: QuestionFormProps) => {
       values.name = userName;
     }
     postQuestion(values);
-    questionForm.reset()
+    questionForm.reset();
   };
 
   return (
@@ -142,9 +138,6 @@ const QuestionForm = ({ isLoggedIn }: QuestionFormProps) => {
                 </FormControl>
                 <SelectContent>
                   {cities.map((city) => {
-                    if (city === "") {
-                      return;
-                    }
                     return (
                       <SelectItem key={city} value={city}>
                         {city}

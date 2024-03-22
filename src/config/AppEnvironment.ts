@@ -1,6 +1,6 @@
 interface EnvVariables {
   Url: string;
-  apiUrl: string
+  apiUrl: string;
 }
 
 interface Environments {
@@ -11,7 +11,7 @@ interface Environments {
 const appConfig: Environments = {
   development: {
     Url: "http://localhost:3000",
-    apiUrl: "http://localhost:3000/api/trpc"
+    apiUrl: "http://localhost:3000/api/trpc",
   },
   production: {
     Url: "https://lintellect.gpdev.me",
@@ -19,4 +19,4 @@ const appConfig: Environments = {
   },
 };
 
-export const Env: EnvVariables = appConfig.production;
+export const Env: EnvVariables = appConfig.development;
