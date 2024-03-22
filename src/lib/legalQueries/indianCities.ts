@@ -1,5 +1,4 @@
 export const cities = [
-  "",
   "Agartala",
   "Agra",
   "Ahmedabad",
@@ -147,5 +146,5 @@ export const cities = [
   "Visakhapatnam",
   "Warangal",
   "Yamunanagar",
-  "Yavatmal"
+  "Yavatmal",
 ] as const;

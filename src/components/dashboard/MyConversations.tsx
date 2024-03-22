@@ -14,6 +14,17 @@ import { Button } from "../ui/button";
 import { useState } from "react";
 import Link from "next/link";
 import StartConversation from "./StartConversation";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 
 const Conversations = () => {
   const utils = trpc.useContext();
@@ -43,7 +54,7 @@ const Conversations = () => {
           My Conversations
         </h1>
         {/* <Start Conversation /> */}
-        <StartConversation/>
+        <StartConversation />
       </div>
 
       {/* Display all user files */}
@@ -53,7 +64,7 @@ const Conversations = () => {
             .sort(
               (a, b) =>
                 new Date(b.createdAt).getTime() -
-                new Date(a.createdAt).getTime(),
+                new Date(a.createdAt).getTime()
             )
             .map((chat) => (
               <li
@@ -66,7 +77,7 @@ const Conversations = () => {
                 >
                   <div className="flex w-full items-center justify-between space-x-6 px-6 pt-6">
                     <div className="h-10 w-10 flex flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-r from-indigo-500 to-purple-500">
-                      <MessagesSquare className=" text-white"/>
+                      <MessagesSquare className=" text-white" />
                     </div>
                     <div className="flex-1 truncate">
                       <div className="flex items-center space-x-3">
@@ -87,18 +98,39 @@ const Conversations = () => {
                     mocked
                   </div>
 
-                  <Button
-                    onClick={() => deleteChat({ chatId: chat.id })}
-                    size="sm"
-                    className="w-full bg-destructive-button text-destructive-buttonFG hover:bg-destructive-button/90"
-                    variant="destructive"
-                  >
-                    {currentlyDeletingChat === chat.id ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : (
-                      <Trash className="h-4 w-4" />
-                    )}
-                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger className="w-full" asChild>
+                      <Button
+                        className=" w-full bg-destructive-button text-destructive-buttonFG hover:bg-destructive-button/90"
+                        size="sm"
+                        variant="destructive"
+                      >
+                        {currentlyDeletingChat === chat.id ? (
+                          <Loader2 className="h-4 w-4 animate-spin" />
+                        ) : (
+                          <Trash className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>
+                          Are you absolutely sure?
+                        </AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This will permanently delete your chat
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => deleteChat({ chatId: chat.id })}
+                        >
+                          Continue
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </li>
             ))}

@@ -15,8 +15,16 @@ import {
   SelectValue,
 } from "../ui/select";
 import { toast } from "sonner";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { redirect, useRouter } from "next/navigation";
 
 export interface UsersData {
   email: string;
@@ -30,19 +38,20 @@ export interface UsersData {
 
 const UsersTable = () => {
   const utils = trpc.useUtils();
-  const [tableChanged, setTableChanged] = useState<boolean>(false)
+  const router = useRouter();
   const {
     data: usersData,
     isLoading,
     error,
     isError,
-  } = trpc.user.getAllUsers.useQuery(undefined, {
+  } = trpc.admin.getAllUsers.useQuery(undefined, {
     retry: false,
     refetchOnWindowFocus: false,
   });
   const handleTryAgain = () => {
-    utils.user.getAllUsers.invalidate();
+    utils.admin.getAllUsers.invalidate();
   };
+
   if (isError) {
     if (error?.data?.code == "FORBIDDEN") {
       return <UnAuthorized />;
@@ -55,6 +64,25 @@ const UsersTable = () => {
       );
     }
   }
+
+  const { mutate: changeUserRole } = trpc.admin.updateUserRole.useMutation({
+    onSuccess: () => {
+      utils.admin.getAllUsers.invalidate();
+      toast.success("User Role Updated Successfully");
+    },
+    onError: (error) => {
+      if (error.data?.code === "FORBIDDEN") {
+        toast.error("Access Denied", {
+          description: "If you're an Admin, please login again!",
+          action: {
+            label: "Login",
+            onClick: () => router.push("/api/auth/login"),
+          },
+        });
+      }
+    },
+  });
+
   const columns: ColumnDef<UsersData>[] = [
     {
       accessorKey: "email",
@@ -93,7 +121,7 @@ const UsersTable = () => {
     },
     {
       id: "actions",
-      cell: ({row}) => {
+      cell: ({ row }) => {
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -103,28 +131,80 @@ const UsersTable = () => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => console.log(tableChanged)}
-              >
-                Advisor
-              </DropdownMenuItem>
+              <DropdownMenuLabel>Change Role</DropdownMenuLabel>
+              {row.getValue("is_advisor") ? (
+                <DropdownMenuItem
+                  onClick={() => {
+                    changeUserRole({
+                      email: row.getValue("email"),
+                      is_admin: row.getValue("is_admin"),
+                      is_advisor: false,
+                    });
+                  }}
+                >
+                  Remove as Advisor
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem
+                  onClick={() => {
+                    changeUserRole({
+                      email: row.getValue("email"),
+                      is_admin: row.getValue("is_admin"),
+                      is_advisor: true,
+                    });
+                  }}
+                >
+                  Advisor
+                </DropdownMenuItem>
+              )}
+              {row.getValue("is_admin") ? (
+                <DropdownMenuItem
+                  onClick={() => {
+                    changeUserRole({
+                      email: row.getValue("email"),
+                      is_admin: false,
+                      is_advisor: row.getValue("is_advisor"),
+                    });
+                  }}
+                >
+                  Remove as Admin
+                </DropdownMenuItem>
+              ) : (
+                <DropdownMenuItem
+                  onClick={() => {
+                    changeUserRole({
+                      email: row.getValue("email"),
+                      is_admin: true,
+                      is_advisor: row.getValue("is_advisor"),
+                    });
+                  }}
+                >
+                  Admin
+                </DropdownMenuItem>
+              )}
               <DropdownMenuSeparator />
               <DropdownMenuItem>View customer</DropdownMenuItem>
               <DropdownMenuItem>View payment details</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-        )
-      }
-    }
+        );
+      },
+    },
   ];
 
   return (
-    <div className=" mx-20">
+    <div className=" container">
       {isLoading ? (
         <Loader2 className=" items-center mx-auto my-80 animate-spin h-8 w-8" />
       ) : (
-        <UserDataTable columns={columns} data={usersData!} />
+        <div className=" container mt-10">
+          <section className="w-full">
+            <h1 className="text-6xl mb-10 font-semibold text-purple-800">
+              User Management Table
+            </h1>
+          </section>
+          <UserDataTable columns={columns} data={usersData!} />
+        </div>
       )}
     </div>
   );

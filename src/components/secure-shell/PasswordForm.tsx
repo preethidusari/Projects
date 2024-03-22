@@ -17,14 +17,14 @@ import { redirect, useRouter } from "next/navigation";
 import { toast } from "sonner";
 
 interface PasswordFormProps {
-  label : string
+  label: string;
 }
 
 const passwordFormSchema = z.object({
   password: z.string().min(1, { message: "Password cannot be empty" }),
 });
 
-const PasswordForm = ({label}:PasswordFormProps) => {
+const PasswordForm = ({ label }: PasswordFormProps) => {
   const router = useRouter();
 
   // Form
@@ -47,7 +47,7 @@ const PasswordForm = ({label}:PasswordFormProps) => {
       });
       router.refresh();
     } else {
-      toast.error("Invalid Password", {description: "Please try again!"})
+      toast.error("Invalid Password", { description: "Please try again!" });
     }
   };
 
@@ -59,9 +59,7 @@ const PasswordForm = ({label}:PasswordFormProps) => {
           name="password"
           render={({ field }) => (
             <FormItem className="mt-5">
-              <FormLabel className=" text-xl">
-                {label}
-              </FormLabel>
+              <FormLabel className=" text-xl">{label}</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Enter your Password"
@@ -72,7 +70,8 @@ const PasswordForm = ({label}:PasswordFormProps) => {
               </FormControl>
               <FormDescription className=" font-semibold">
                 *Note: If this is your initial login attempt, As a security
-                measure, please set your desired password to access Your Secure Shell
+                measure, please set your desired password to access Your Secure
+                Shell
               </FormDescription>
               <FormMessage />
             </FormItem>
