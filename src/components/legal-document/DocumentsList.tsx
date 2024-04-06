@@ -48,7 +48,7 @@ export const Documents: DocumentType[] = [
   {
     id: "loan-agreement",
     title: "Loan Agreement",
-    filename: "Loan-Agreement-Lintellect.docx",
+    filename: "Loan-Agreement-LawRato3[1].docx",
     icon: <Receipt className=" h-5 w-5 mr-2 text-purple-700" />,
     component: <LoanAgreement />,
   },

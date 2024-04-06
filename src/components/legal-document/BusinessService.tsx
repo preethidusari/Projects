@@ -63,12 +63,38 @@ const BusinessServiceAgreement = () => {
     const url = window.URL.createObjectURL(blob);
     const link = document.createElement("a");
     link.href = url;
-    link.setAttribute("download", "document.docx"); // Set the file name
+    link.setAttribute(
+      "download",
+      "Business Services Agreement - Lintellect.docx"
+    ); // Set the file name
+    document.body.appendChild(link);
+    link.click();
+  };
+  const getTemplate = async () => {
+    const req = {
+      input_file: "Business-Services-Agreement-LawRato3.docx",
+    };
+    const res = await fetch("/api/doc-template", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(req),
+    });
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute(
+      "download",
+      "Business Services Agreement - Lintellect.docx"
+    ); // Set the file name
     document.body.appendChild(link);
     link.click();
   };
   return (
     <div className="flex flex-col justify-center items-center">
+      <Button onClick={getTemplate}>Download Template</Button>
       <div className=" w-[75%] bg-white border-2 border-spacing-2 border-gray-200 rounded-md p-8 my-10">
         <h1 className=" text-center text-2xl mb-2">
           DRAFT OF BUSINESS SERVICE AGREEMENT
@@ -657,7 +683,7 @@ const BusinessServiceAgreement = () => {
         </p>
       </div>
       <Button className=" mb-4" onClick={submitDocument}>
-        Download
+        Download Document
       </Button>
     </div>
   );
