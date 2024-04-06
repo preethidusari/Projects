@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 
 const MoneyBond = () => {
   const [formData, setFormData] = useState({
@@ -46,8 +47,48 @@ const MoneyBond = () => {
     "[39]": "",
     "[40]": "",
   });
+  const submitDocument = async () => {
+    const req = {
+      input_file: "Simple-Money-Bond-LawRato2[1].docx",
+      data: formData,
+    };
+    const res = await fetch("/api/legal-document", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(req),
+    });
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "Money Bond - Lintellect.docx"); // Set the file name
+    document.body.appendChild(link);
+    link.click();
+  };
+  const getDocument = async () => {
+    const req = {
+      input_file: "Simple-Money-Bond-LawRato2.docx",
+    };
+    const res = await fetch("/api/doc-template", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(req),
+    });
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "Money Bond - Lintellect.docx"); // Set the file name
+    document.body.appendChild(link);
+    link.click();
+  };
   return (
     <div className="flex flex-col justify-center items-center">
+      <Button onClick={getDocument}>Download Template</Button>
       <div className=" w-[75%] bg-white border-2 border-spacing-2 border-gray-200 rounded-md p-8 mt-10">
         <h1 className=" text-center text-2xl">DRAFT OF SIMPLE MONEY BOND</h1>
         <p>
@@ -137,6 +178,7 @@ const MoneyBond = () => {
           delivered by the within named wife Mrs. C WITNESSES; 1. 2.
         </p>
       </div>
+      <Button onClick={submitDocument}>Download</Button>
     </div>
   );
 };

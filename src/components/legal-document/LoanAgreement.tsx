@@ -46,9 +46,48 @@ const LoanAgreement = () => {
     "[39]": "",
     "[40]": "",
   });
-
+  const getDocument = async () => {
+    const req = {
+      input_file: "Loan-Agreement-LawRato3.docx",
+    };
+    const res = await fetch("/api/doc-template", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(req),
+    });
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "Loan Agreement - Lintellect.docx"); // Set the file name
+    document.body.appendChild(link);
+    link.click();
+  };
+  const submitDocument = async () => {
+    const req = {
+      input_file: "Loan-Agreement-LawRato3[1].docx",
+      data: formData,
+    };
+    const res = await fetch("/api/legal-document", {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(req),
+    });
+    const blob = await res.blob();
+    const url = window.URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "Loan Agreement - Lintellect.docx"); // Set the file name
+    document.body.appendChild(link);
+    link.click();
+  };
   return (
     <div className="flex flex-col justify-center items-center">
+      <Button onClick={getDocument}>Download Template</Button>
       <div className=" w-[75%] bg-white border-2 border-spacing-2 border-gray-200 rounded-md p-8 mt-10">
         <h1 className=" text-center text-2xl">DRAFT OF LOAN AGREEMENT</h1>
         <p className="mt-10">
@@ -301,7 +340,7 @@ const LoanAgreement = () => {
         </p>
       </div>
 
-      <Button onClick={() => console.log(formData)}>Submit</Button>
+      <Button onClick={submitDocument}>Download</Button>
     </div>
   );
 };
