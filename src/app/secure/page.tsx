@@ -53,7 +53,7 @@ const SecureGatewayPage = async () => {
         <PasswordForm
           label={
             initialSetup
-              ? "PLease set a Password"
+              ? "Please set a Password"
               : "Please enter your Password"
           }
         />
