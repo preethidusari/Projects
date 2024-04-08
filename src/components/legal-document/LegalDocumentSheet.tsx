@@ -39,12 +39,12 @@ export function LegalDocumentSheet() {
             <Link
               key={doc.id}
               className={cn(
-                "flex items-center justify-centertext-2xl",
+                "flex text-2xl",
                 buttonVariants({ variant: "outline" })
               )}
               href={`/legal-docs/${doc.id}`}
             >
-              <SheetClose className=" flex items-center justify-center">
+              <SheetClose className="flex">
                 {doc.icon}
                 {doc.title}
               </SheetClose>

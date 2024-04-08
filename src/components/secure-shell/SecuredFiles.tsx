@@ -1,7 +1,17 @@
 "use client";
 import { trpc } from "@/app/_trpc/client";
 import UploadButton from "../dashboard/UploadButton";
-import { FileCheck2, Ghost, Loader2, MessageSquare, Plus, ShieldCheck, Trash } from "lucide-react";
+import {
+  Download,
+  Eye,
+  FileCheck2,
+  Ghost,
+  Loader2,
+  MessageSquare,
+  Plus,
+  ShieldCheck,
+  Trash,
+} from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
 import { Button } from "../ui/button";
@@ -20,31 +30,37 @@ import {
 } from "../ui/alert-dialog";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import PdfDialog from "../pdf-rendering/PdfDialog";
 
 const MySecuredFiles = () => {
   const utils = trpc.useUtils();
-  const router = useRouter()
+  const router = useRouter();
 
   const [currentlyDeletingFile, setCurrentlyDeletingFile] = useState<
     string | null
   >(null);
 
-  const { data: files, isLoading } = trpc.shell.getUserFiles.useQuery(undefined, {
-    retry: (_count, err) => {
-      if(err.data?.code === "FORBIDDEN") return false
-      return true
-    },
-    onError: (err) => {
-      if(err.data?.code==="FORBIDDEN") {
-        toast.warning("Session timed out!", {description: "Please Login again!"})
-        router.push("/secure")
-      } 
+  const { data: files, isLoading } = trpc.shell.getUserFiles.useQuery(
+    undefined,
+    {
+      retry: (_count, err) => {
+        if (err.data?.code === "FORBIDDEN") return false;
+        return true;
+      },
+      onError: (err) => {
+        if (err.data?.code === "FORBIDDEN") {
+          toast.warning("Session timed out!", {
+            description: "Please Login again!",
+          });
+          router.push("/secure");
+        }
+      },
     }
-  });
+  );
 
   const { mutate: deleteFile } = trpc.shell.deleteFile.useMutation({
     onSuccess: (file) => {
-      toast.success(`${file.name}`, {description: "Deleted Successfully"})
+      toast.success(`${file.name}`, { description: "Deleted Successfully" });
       utils.shell.getUserFiles.invalidate();
     },
     onMutate: ({ id }) => {
@@ -58,7 +74,9 @@ const MySecuredFiles = () => {
   return (
     <main className="mx-auto max-w-7xl mt-4 md:p-8">
       <div className=" flex flex-col items-start justify-between gap-4 pb-5 sm:flex-row sm:items-center sm:gap-0">
-        <h1 className="mb-3 font-bold text-4xl text-gray-900">Encrypted Files</h1>
+        <h1 className="mb-3 font-bold text-4xl text-gray-900">
+          Encrypted Files
+        </h1>
       </div>
 
       {/* Display all user files */}
@@ -75,16 +93,13 @@ const MySecuredFiles = () => {
                 key={file.id}
                 className="col-span-1 divide-y divide-gray-200 rounded-lg bg-white shadow transition hover:shadow-lg"
               >
-                <Link
-                  href={"#"}
-                  className="flex flex-col gap-2"
-                >
+                <Link href={"#"} className="flex flex-col gap-2">
                   <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
                     <div className="h-10 w-10 flex items-center justify-center flex-shrink-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500">
-                      <FileCheck2 className=" text-white"/>
+                      <FileCheck2 className=" text-white" />
                     </div>
                     <div className="flex-1 truncate">
-                      <div className="flex items-center space-x-3">
+                      <div className="flex items-center justify-between space-x-3">
                         <h3 className="truncate text-lg font-medium text-zinc-900">
                           {file.name}
                         </h3>
@@ -97,16 +112,20 @@ const MySecuredFiles = () => {
                     <Plus className="h-4 w-4" />
                     {format(new Date(file.createdAt), "MMM yyyy")}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <ShieldCheck className="h-4 w-4" />
-                    Encrypted
-                  </div>
+                  <Link
+                    href={file.url}
+                    className="flex items-center gap-2 text-md"
+                  >
+                    <Download className="h-5 w-5" />
+                    Download
+                  </Link>
 
                   <AlertDialog>
                     <AlertDialogTrigger className="w-full" asChild>
-                      <Button className=" w-full bg-destructive-button text-destructive-buttonFG hover:bg-destructive-button/90"
-                      size="sm"
-                      variant="destructive"
+                      <Button
+                        className=" w-full bg-destructive-button text-destructive-buttonFG hover:bg-destructive-button/90"
+                        size="sm"
+                        variant="destructive"
                       >
                         {currentlyDeletingFile === file.id ? (
                           <Loader2 className="h-4 w-4 animate-spin" />
