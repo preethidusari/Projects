@@ -115,12 +115,12 @@ const UserQueries = () => {
                         </Button>
                       </div>
                     )}
-                    {query.isAnswered && (
-                      <p className="mt-2 bg-green-100 text-green-800 p-2 rounded">
-                        {query.answer}
-                      </p>
-                    )}
                   </div>
+                )}
+                {query.isAnswered && (
+                  <p className="mt-2 bg-green-100 text-green-800 p-2 rounded">
+                    {query.answer}
+                  </p>
                 )}
               </div>
             );

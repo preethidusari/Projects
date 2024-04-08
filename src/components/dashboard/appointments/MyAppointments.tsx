@@ -129,6 +129,11 @@ const MyAppointments = () => {
                       {appointment.status}
                     </Badge>
                   </div>
+                  {appointment.status === "SCHEDULED" && (
+                    <div className=" pl-6 text-lg font-medium text-zinc-900">
+                      Ph No: {appointment.mobileNumber}
+                    </div>
+                  )}
                 </div>
                 <div className="px-6 mt-4 grid grid-cols-3 place-items-center py-2 gap-6 text-xs text-zinc-500">
                   <div className="flex items-center gap-2">

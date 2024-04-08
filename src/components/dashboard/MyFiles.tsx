@@ -1,7 +1,16 @@
 "use client";
 import { trpc } from "@/app/_trpc/client";
 import UploadButton from "./UploadButton";
-import { FileCheck2, Ghost, Loader2, MessageSquare, Plus, Trash } from "lucide-react";
+import {
+  Download,
+  Eye,
+  FileCheck2,
+  Ghost,
+  Loader2,
+  MessageSquare,
+  Plus,
+  Trash,
+} from "lucide-react";
 import Skeleton from "react-loading-skeleton";
 import { format } from "date-fns";
 import { Button } from "../ui/button";
@@ -18,6 +27,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import PdfDialog from "../pdf-rendering/PdfDialog";
 
 const MyFiles = () => {
   const utils = trpc.useContext();
@@ -66,13 +76,14 @@ const MyFiles = () => {
                 >
                   <div className="pt-6 px-6 flex w-full items-center justify-between space-x-6">
                     <div className="h-10 w-10 flex items-center justify-center flex-shrink-0 rounded-full bg-gradient-to-r from-indigo-500 to-purple-500">
-                      <FileCheck2 className=" text-white"/>
+                      <FileCheck2 className=" text-white" />
                     </div>
                     <div className="flex-1 truncate">
-                      <div className="flex items-center space-x-3">
+                      <div className="flex items-center justify-between space-x-3">
                         <h3 className="truncate text-lg font-medium text-zinc-900">
                           {file.name}
                         </h3>
+                        <PdfDialog fileUrl={file.url} />
                       </div>
                     </div>
                   </div>
@@ -82,16 +93,20 @@ const MyFiles = () => {
                     <Plus className="h-4 w-4" />
                     {format(new Date(file.createdAt), "MMM yyyy")}
                   </div>
-                  <div className="flex items-center gap-2">
-                    <MessageSquare className="h-4 w-4" />
-                    mocked
-                  </div>
+                  <Link
+                    href={file.url}
+                    className="flex items-center gap-2 text-md"
+                  >
+                    <Download className="h-5 w-5" />
+                    Download
+                  </Link>
 
                   <AlertDialog>
                     <AlertDialogTrigger className="w-full" asChild>
-                      <Button className=" w-full bg-destructive-button text-destructive-buttonFG hover:bg-destructive-button/90"
-                      size="sm"
-                      variant="destructive"
+                      <Button
+                        className=" w-full bg-destructive-button text-destructive-buttonFG hover:bg-destructive-button/90"
+                        size="sm"
+                        variant="destructive"
                       >
                         {currentlyDeletingFile === file.id ? (
                           <Loader2 className="h-4 w-4 animate-spin" />
